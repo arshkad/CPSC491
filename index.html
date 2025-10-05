@@ -4,19 +4,38 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ColorMe</title>
-    </head>
-    <body>
         <style>
-            body{
-                background-image: url('Screenshot 2025-09-29 220417.jpg');
+            .login-button-container {
+                display: flex;
+                justify-content: center;
+                width: center;
+                align-items: center;
+                height: 3vh;
+                margin: 0;
+            }
+
+            .middle-login {
+                padding: 12px 24px;
+                font-size: 16px;
+                background-color: bisque;
+                color: rgb(0, 0, 0);
+                border: none;
+                border-radius: 8px;
+                transition: background-color 0.3s;
             }
         </style>
+    </head>
+    <body>
         <h1>Hello, World!</h1>
         <p>This is a basic paragraph in my HTML file.</p>
         <p>Test to push through github.</p>
-        <a href="Login page.html" target=_blank title="Login into ColorMe">
-            <button style="background-color: bisque;color:rgb(38, 24, 4); border-radius: 5px">Login</button>
-        </a>
         <h1 style="text-align: center;"">ColorMe</h1>
+        <!--Note: 
+        1. Center login button underneath ColorMe
+        2. Apply a background image (was thinking the color wheel on slide)-->
+        
+        <div class="login-button-container">
+            <a href="Login page.html" class="middle-login"> Login</a>
+        </div>
     </body>
     </html>
