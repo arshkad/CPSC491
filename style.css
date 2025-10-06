@@ -4,6 +4,12 @@ html, body {
   padding: 0;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+        font-family: 'Roboto', sans-serif;
+    }
+
 #background {
   position: fixed;
   top: 0;
@@ -43,7 +49,7 @@ html, body {
 .middle-login {
   padding: 12px 24px;
   font-size: 16px;
-  background-color: rgb(255, 197, 125);
+  background-color: rgb(165, 219, 159);
   color: black;
   border: none;
   border-radius: 8px;
