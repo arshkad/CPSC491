@@ -47,6 +47,10 @@ body {
 /*      2.      */
 .login-button-container {
   margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .middle-login {
@@ -58,7 +62,19 @@ body {
   border-radius: 8px;
   transition: background-color 0.3s;
 }
+
+/* Sign Up button */
 /*      2.      */
+.middle-signup {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #a7bde8;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  text-decoration: underline;
+}
 
 /* Upload box */
 /*      8.      */
