@@ -3,28 +3,30 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
         <!--3.-->
-        <title>ColorMe login</title>
     </head>
-    <body>
+    <body class="center-login">
+        <div class="wrapper">
+            <br>
+            <h1>ColorMe Login</h1>
         <form>
-            <div>
-                <label for="fname">Username: </label>
-                <input type="text" id="fname" name="fname" placeholder="ColorMe@gmail.com">
-            </div>
-            <br>
-            <div>
-                <label for="lname">Password: </label>
-                <input type="text" id="lname" name="lname" placeholder="Some password">
-            </div>
-            <br>
-            <div>
+            <div class="sec-pg-login-container">
+                <div class="username-style">
+                    <input type="text" id="fname" name="fname" placeholder="Username">
+                </div>
+                <!--<input type="text" id="fname" name="fname" placeholder="Username">
+                -->
+                <div class="password-style">
+                    <input type="text" id="lname" name="lname" placeholder="Password">
+                </div>
+                <!--<input type="text" id="lname" name="lname" placeholder="Password">
+                -->
                 <button type="submit">Login</button>
+                 <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+                 <p><a href="index.html">← Back to Home</a></p>
             </div>
-        </form>
-
-        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
-
-        <p><a href="index.html">← Back to Home</a></p>
+            </form>
+        </div>
     </body>
 </html>
