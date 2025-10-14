@@ -1,16 +1,21 @@
  <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
         <!--3.-->
-    </head>
-    <body class="center-login">
-        <div class="wrapper">
-            <br>
-            <h1>ColorMe Login</h1>
-        <form>
+</head>
+<body class="center-login">
+    <div class="wrapper">
+        <br>
+        <h1>ColorMe Login</h1>
+
+        <div id="error-message" style="display: none;">
+            <p>Incorrect username or password.</p>
+        </div>
+
+        <form action="/login" method="post">
             <div class="sec-pg-login-container">
                 <div class="username-style">
                     <input type="text" id="fname" name="username" placeholder="Username">
@@ -23,14 +28,14 @@
                 <!--<input type="text" id="lname" name="lname" placeholder="Password">
                 -->
                 <button type="submit">Login</button>
-                 <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
-                 <p><a href="index.html">← Back to Home</a></p>
+                <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+                <p><a href="index.html">← Back to Home</a></p>
             </div>
-            </form>
-        </div>
+        </form>
+    </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
             // Get the URL parameters
             const params = new URLSearchParams(window.location.search);
             // Finds the error message div and make it visible
@@ -39,6 +44,6 @@
                 errorMessage.style.display = 'block';
             }
         });
-        </script>
+    </script>
 </body>
 </html>
