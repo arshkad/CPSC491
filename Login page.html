@@ -18,12 +18,12 @@
         <form action="/login" method="post">
             <div class="sec-pg-login-container">
                 <div class="username-style">
-                    <input type="text" id="fname" name="fname" placeholder="Username">
+                    <input type="text" id="fname" name="username" placeholder="Username">
                 </div>
                 <!--<input type="text" id="fname" name="fname" placeholder="Username">
                 -->
                 <div class="password-style">
-                    <input type="password" id="lname" name="lname" placeholder="Password">
+                    <input type="password" id="lname" name="password" placeholder="Password">
                 </div>
                 <!--<input type="text" id="lname" name="lname" placeholder="Password">
                 -->
@@ -38,9 +38,8 @@
             document.addEventListener('DOMContentLoaded', () => {
             // Get the URL parameters
             const params = new URLSearchParams(window.location.search);
-            // If the 'error' parameter exists...
+            // Finds the error message div and make it visible
             if (params.has('error')) {
-                // ...find the error message div and make it visible
                 const errorMessage = document.getElementById('error-message');
                 errorMessage.style.display = 'block';
             }
