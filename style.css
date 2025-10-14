@@ -25,7 +25,14 @@ body {
   background-color: #ffffff;
 }
 
-
+#error-message {
+    color: #D8000C;
+    background-color: #FFD2D2;
+    border: 1px solid;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 10px;
+}
 
 .box {
   border: 1px solid rgba(255,255,255,0.2);

@@ -1,16 +1,21 @@
- <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <!--3.-->
-    </head>
-    <body class="center-login">
-        <div class="wrapper">
-            <br>
-            <h1>ColorMe Login</h1>
-        <form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!--3.-->
+</head>
+<body class="center-login">
+    <div class="wrapper">
+        <br>
+        <h1>ColorMe Login</h1>
+
+        <div id="error-message" style="display: none;">
+            <p>Incorrect username or password.</p>
+        </div>
+
+        <form action="/login" method="post">
             <div class="sec-pg-login-container">
                 <div class="username-style">
                     <input type="text" id="fname" name="fname" placeholder="Username">
@@ -28,5 +33,18 @@
             </div>
             </form>
         </div>
-    </body>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            // Get the URL parameters
+            const params = new URLSearchParams(window.location.search);
+            // If the 'error' parameter exists...
+            if (params.has('error')) {
+                // ...find the error message div and make it visible
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.style.display = 'block';
+            }
+        });
+        </script>
+</body>
 </html>
