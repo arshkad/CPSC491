@@ -12,6 +12,10 @@ body {
     }
 
 #background {
+  background-image: url(202-2020671_blood-drip-clip-art.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50% 85%;
   position: fixed;
   top: 0;
   left: 0;
@@ -53,6 +57,10 @@ body {
 /* Login button */
 /*      2.      */
 body.center-login {
+  background-image: url(202-2020671_blood-drip-clip-art.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50% 85%;
   display: flex;
   justify-content: center;
   align-items: center;
