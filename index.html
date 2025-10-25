@@ -5,48 +5,190 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <title>ColorMe</title> <!--1.-->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <title>ColorMe</title>
   <link rel="icon" type="image/x-icon" href="color-wheel-guide-isolated-on-transparent-vector-48630416.webp">
+  <style>
+    canvas { display: none; }
+    #drop {
+      background-color: #a1c4fd;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      position: absolute;
+    }
+    .color-display {
+      display: none;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    .color-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      border: 2px solid #333;
+      cursor: pointer;
+    }
+    .upload-box img {
+      max-width: 250px;
+      border-radius: 10px;
+      margin-top: 10px;
+      cursor: crosshair;
+    }
+    #instructions {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    #preview-box {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 2px solid #000;
+      border-radius: 50%;
+      pointer-events: none;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div id="background"></div>
 
   <div class="content">
     <h1>ColorMe</h1>
-                        <!--2.-->
+
     <div class="login-button-container">
       <a href="Login page.html" class="middle-login">Login</a>
       <a href="signup.html" class="middle-signup">Sign Up</a>
-    </div>              <!--2-->
-                        <!--8.-->
+    </div>
+
     <div class="upload-box" id="drop">
       <h2>Upload a Photo</h2>
       <p>Choose a file or drag & drop an image here</p>
       <input id="file" type="file" accept="image/*">
+
+      <div class="color-display" id="colors">
+        <div>
+          <p>Skin</p>
+          <div id="skin-color" class="color-box"></div>
+        </div>
+        <div>
+          <p>Hair</p>
+          <div id="hair-color" class="color-box"></div>
+        </div>
+        <div>
+          <p>Eyes</p>
+          <div id="eye-color" class="color-box"></div>
+        </div>
+      </div>
+
+      <p id="instructions"></p>
+      <div id="preview-box"></div>
     </div>
+
+    <canvas id="canvas"></canvas>
   </div>
 
-  <script src="script.js"></script>
   <script>
     const drop = document.getElementById('drop');
     const fileInput = document.getElementById('file');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const instructions = document.getElementById('instructions');
+    const colorsDiv = document.getElementById('colors');
+    const previewBox = document.getElementById('preview-box');
 
-    ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => {
+    let currentPick = null;
+    let imgElement = null;
+
+    ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => {
       e.preventDefault();
       drop.classList.add('dragover');
     }));
-
-    ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => {
+    ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => {
       e.preventDefault();
       drop.classList.remove('dragover');
     }));
-
     drop.addEventListener('drop', e => {
       const file = e.dataTransfer.files[0];
       if(file) fileInput.files = e.dataTransfer.files;
+      showPreview(file);
     });
-  </script>               <!--8.-->
+
+    fileInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if(file) showPreview(file);
+    });
+
+    function showPreview(file) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = new Image();
+        img.onload = function() {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          drop.innerHTML = '<img src="' + ev.target.result + '" id="preview">';
+         
+          drop.appendChild(colorsDiv);
+          drop.appendChild(instructions);
+          drop.appendChild(previewBox);
+
+          imgElement = document.getElementById('preview');
+          imgElement.addEventListener('mousemove', updatePreview);
+          imgElement.addEventListener('mouseleave', () => previewBox.style.display = 'none');
+          imgElement.addEventListener('click', pickColor);
+
+          colorsDiv.style.display = 'flex';
+          instructions.textContent = 'Click a color box (Skin, Hair, or Eyes) to start picking from the photo.';
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    document.querySelectorAll('.color-box').forEach(box => {
+      box.addEventListener('click', () => {
+        currentPick = box.id.split('-')[0];
+        instructions.textContent = 'Click on your ' + currentPick + ' color in the photo.';
+      });
+    });
+
+    function updatePreview(e) {
+      if(!imgElement) return;
+
+      const rect = imgElement.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const scaleX = canvas.width / imgElement.width;
+      const scaleY = canvas.height / imgElement.height;
+      const pixel = ctx.getImageData(x*scaleX, y*scaleY, 1, 1).data;
+      const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+
+      previewBox.style.display = 'block';
+      previewBox.style.backgroundColor = rgb;
+
+      previewBox.style.left = (e.clientX + 10) + 'px';
+      previewBox.style.top = (e.clientY + 10) + 'px';
+    }
+
+
+    function pickColor(e) {
+      if(!currentPick) return;
+      const rect = imgElement.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const scaleX = canvas.width / imgElement.width;
+      const scaleY = canvas.height / imgElement.height;
+      const pixel = ctx.getImageData(x*scaleX, y*scaleY, 1, 1).data;
+      const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+      document.getElementById(currentPick + '-color').style.backgroundColor = rgb;
+      instructions.textContent = currentPick.charAt(0).toUpperCase() + currentPick.slice(1) + ' color selected!';
+      currentPick = null;
+    }
+  </script>
 </body>
 </html>
