@@ -24,7 +24,6 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, 40px);
   grid-auto-rows: 40px;
-  transform: skewX(-20deg) skewY(10deg);
   z-index: 0;
   background-color: #ffffff;
 }
