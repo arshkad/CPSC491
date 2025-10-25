@@ -148,7 +148,7 @@ input[type=file] {
   margin: 20px auto;
 }
 /*      8.      */
-#drop {
+/* #drop {
   position: relative;
   background-color: #a1c4fd;
   padding: 20px;
@@ -177,7 +177,7 @@ input[type=file] {
   border-radius: 10px;
   text-align: center;
   /* remove position:absolute */
-  width: 90%;
+  /* width: 90%;
   max-width: 500px;
   box-sizing: border-box;
-}
+} */
