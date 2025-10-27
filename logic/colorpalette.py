@@ -53,3 +53,32 @@ def generate_palette(base_color, palette_type="complementary"):
    else:
        raise ValueError("Palette type not specified.") 
 
+# Convert to HEX for frontend readability
+   palette_hex = [rgb_to_hex(color) for color in palette]
+   return palette_hex
+
+
+# Flask Route: /palette
+@app.route('/palette', methods=['POST'])
+def palette_route():
+   data = request.get_json()
+
+
+   base_color = data.get('base_color', [255, 0, 0])  # Default = red
+   palette_type = data.get('palette_type', 'complementary')
+
+
+   try:
+       palette = generate_palette(base_color, palette_type)
+       return jsonify({
+           "base_color": base_color,
+           "palette_type": palette_type,
+           "generated_palette": palette
+       })
+   except Exception as e:
+       return jsonify({"error": str(e)}), 400
+
+
+if __name__ == '__main__':
+   app.run(debug=True)
+
