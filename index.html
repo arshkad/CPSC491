@@ -122,102 +122,105 @@
   </div>
 
   <script>
-    const drop = document.getElementById('drop');
-    const fileInput = document.getElementById('file');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const instructions = document.getElementById('instructions');
-    const colorsDiv = document.getElementById('colors');
-    const previewBox = document.getElementById('preview-box');
+  const drop = document.getElementById('drop');
+  const fileInput = document.getElementById('file');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const instructions = document.getElementById('instructions');
+  const colorsDiv = document.getElementById('colors');
 
-    let currentPick = null;
-    let imgElement = null;
+  let currentPick = null;
+  let imgElement = null;
 
-    ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => {
-      e.preventDefault();
-      drop.classList.add('dragover');
-    }));
-    ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => {
-      e.preventDefault();
-      drop.classList.remove('dragover');
-    }));
-    drop.addEventListener('drop', e => {
-      const file = e.dataTransfer.files[0];
-      if(file) fileInput.files = e.dataTransfer.files;
-      showPreview(file);
-    });
+  ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => e.preventDefault()));
+  ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => e.preventDefault()));
 
-    fileInput.addEventListener('change', e => {
-      const file = e.target.files[0];
-      if(file) showPreview(file);
-    });
+  drop.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if(file) fileInput.files = e.dataTransfer.files;
+    showPreview(file);
+  });
 
-    function showPreview(file) {
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const img = new Image();
-        img.onload = function() {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
-          drop.innerHTML = '<img src="' + ev.target.result + '" id="preview">';
-         
-          drop.appendChild(colorsDiv);
-          drop.appendChild(instructions);
-          drop.appendChild(previewBox);
+  fileInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if(file) showPreview(file);
+  });
 
-          imgElement = document.getElementById('preview');
-          imgElement.addEventListener('mousemove', updatePreview);
-          imgElement.addEventListener('mouseleave', () => previewBox.style.display = 'none');
-          imgElement.addEventListener('click', pickColor);
+  function showPreview(file) {
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const img = new Image();
+      img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
 
-          colorsDiv.style.display = 'flex';
-          instructions.textContent = 'Click a color box (Skin, Hair, or Eyes) to start picking from the photo.';
-        };
-        img.src = ev.target.result;
+        drop.innerHTML = '<img src="' + ev.target.result + '" id="preview">';
+        drop.appendChild(colorsDiv);
+        drop.appendChild(instructions);
+
+        imgElement = document.getElementById('preview');
+        imgElement.addEventListener('mousemove', updateCursorColor);
+        imgElement.addEventListener('click', pickColor);
+
+        colorsDiv.style.display = 'flex';
+        instructions.textContent = 'Click a color box (Skin, Hair, or Eyes) to start picking from the photo.';
       };
-      reader.readAsDataURL(file);
-    }
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 
-    document.querySelectorAll('.color-box').forEach(box => {
-      box.addEventListener('click', () => {
-        currentPick = box.id.split('-')[0];
-        instructions.textContent = 'Click on your ' + currentPick + ' color in the photo.';
-      });
+  document.querySelectorAll('.color-box').forEach(box => {
+    box.addEventListener('click', () => {
+      currentPick = box.id.split('-')[0];
+      instructions.textContent = 'Click on your ' + currentPick + ' color in the photo.';
     });
+  });
 
-    function updatePreview(e) {
-      if(!imgElement) return;
+  function updateCursorColor(e) {
+    if (!imgElement) return;
 
-      const rect = imgElement.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const scaleX = canvas.width / imgElement.width;
-      const scaleY = canvas.height / imgElement.height;
-      const pixel = ctx.getImageData(x*scaleX, y*scaleY, 1, 1).data;
-      const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+    const rect = imgElement.getBoundingClientRect();
+    const scaleX = canvas.width / imgElement.width;
+    const scaleY = canvas.height / imgElement.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
 
-      previewBox.style.display = 'block';
-      previewBox.style.backgroundColor = rgb;
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
 
-      previewBox.style.left = (e.clientX + 10) + 'px';
-      previewBox.style.top = (e.clientY + 10) + 'px';
-    }
+    // Create a small colored circle for the cursor
+    const cursorCanvas = document.createElement('canvas');
+    cursorCanvas.width = 24;
+    cursorCanvas.height = 24;
+    const cursorCtx = cursorCanvas.getContext('2d');
+    cursorCtx.fillStyle = rgb;
+    cursorCtx.beginPath();
+    cursorCtx.arc(12, 12, 10, 0, 2 * Math.PI);
+    cursorCtx.fill();
 
+    // Set the cursor
+    imgElement.style.cursor = `url(${cursorCanvas.toDataURL()}), auto`;
+  }
 
-    function pickColor(e) {
-      if(!currentPick) return;
-      const rect = imgElement.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const scaleX = canvas.width / imgElement.width;
-      const scaleY = canvas.height / imgElement.height;
-      const pixel = ctx.getImageData(x*scaleX, y*scaleY, 1, 1).data;
-      const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
-      document.getElementById(currentPick + '-color').style.backgroundColor = rgb;
-      instructions.textContent = currentPick.charAt(0).toUpperCase() + currentPick.slice(1) + ' color selected!';
-      currentPick = null;
-    }
-  </script>
+  function pickColor(e) {
+    if(!currentPick) return;
+
+    const rect = imgElement.getBoundingClientRect();
+    const scaleX = canvas.width / imgElement.width;
+    const scaleY = canvas.height / imgElement.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+
+    document.getElementById(currentPick + '-color').style.backgroundColor = rgb;
+    instructions.textContent = currentPick.charAt(0).toUpperCase() + currentPick.slice(1) + ' color selected!';
+    currentPick = null;
+  }
+</script>
+
 </body>
 </html>

@@ -147,7 +147,9 @@ input[type=file] {
   margin: 20px auto;
 }
 /*      8.      */
-#preview-box {
+
+
+/* #preview-box {
   position: fixed;
   width: 40px;
   height: 40px;
@@ -156,8 +158,17 @@ input[type=file] {
   pointer-events: none;
   display: none;
   z-index: 1000;
-}
+} */
 
+#preview-box {
+  position: absolute; /* instead of absolute */
+  width: 40px;
+  height: 40px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  pointer-events: none;
+  display: none;
+}
 
 #drop {
   background-color: #a1c4fd;
