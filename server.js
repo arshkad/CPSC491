@@ -1,3 +1,7 @@
+const axios = require('axios');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
+
 const express = require('express');
 const fs = require('fs');
 
@@ -42,7 +46,7 @@ app.post('/login', (req, res) => {
       res.send(`
         <script>
           sessionStorage.setItem('loggedInUser', '${username}');
-          window.location.href = '/';
+          window.location.href = '/Dashboard.html';
         </script>
       `);
     } else {
@@ -50,6 +54,25 @@ app.post('/login', (req, res) => {
     }
   });
 });
+
+app.post('/analyze', upload.single('imageFile'), async (req, res) => {
+  try {
+    // Takes image from browser
+    const image = req.file.buffer;
+
+    // Sends image to server
+    const formData = new FormData();
+    formData.append('image', new Blob([image]), req.file.originalname);
+
+    const pythonResponse = await axios.post('http://localhost:5000/extract_colors', formData);
+
+    res.json(pythonResponse.data);
+
+  } catch (error) {
+    console.error("Error in /analyze:", error);
+    res.status(500).json({ error: 'Failed to analyze image' });
+  }
+})
 
 // --- Start Server ---
 app.listen(PORT, () => {

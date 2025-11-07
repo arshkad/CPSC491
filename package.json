@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/arshkad/CPSC491#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "axios": "^1.13.2",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
   }
 }
