@@ -39,8 +39,9 @@
             <span>Settings</span>
           </a>
         </li>
-        <a href="#">
-            <i class="bx bx-cog"></i>
+        <li>
+          <a href="#" id="logout-link">
+            <i class="bx bx-log-out"></i>
             <span>Log out</span>
           </a>
         </li>
@@ -67,6 +68,12 @@
       resizeBtn.addEventListener('click', function(e) {
         e.preventDefault();
         document.body.classList.toggle('sb-decor');
+      });
+
+      document.getElementById('logout-link').addEventListener('click', (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('loggedInUser');
+        window.location.href = '/';
       });
     </script>
 </body>

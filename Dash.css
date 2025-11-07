@@ -95,9 +95,12 @@ nav a span {
     rotate: 180deg;
 }
 
+.sb-decor aside {
+    width: 12.5rem;
+}
+
 main {
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     margin-left: 5rem;
     padding: 1rem 2rem;
     transition: margin-left 0.5s ease-in-out;
