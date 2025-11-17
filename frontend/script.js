@@ -38,3 +38,16 @@
 //     background.appendChild(box);
 //   }
 // });
+
+async function sendToBackend(imageFile) {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    const response = await fetch("http://127.0.0.1:5000/extract_colors", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+    console.log("Colors from backend:", data);
+}

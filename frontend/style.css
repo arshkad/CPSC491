@@ -11,8 +11,8 @@ body {
         font-family: 'Roboto', sans-serif;
     }
 
-#background {
-  background-image: url(202-2020671_blood-drip-clip-art.png);
+/* #background {
+  background-image: url('./images/202-2020671_blood-drip-clip-art.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50% 85%;
@@ -26,7 +26,25 @@ body {
   grid-auto-rows: 40px;
   z-index: 0;
   background-color: #ffffff;
+} */
+
+/* does not distort the background; saved the previous code shown above in case we need it */
+#background {
+  background-image: url('images/202-2020671_blood-drip-clip-art.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain; /* prevents distortion */
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  z-index: 0;
+  background-color: #ffffff;
 }
+
 
 #error-message {
     color: #D8000C;
@@ -56,10 +74,10 @@ body {
 /* Login button */
 /*      2.      */
 body.center-login {
-  background-image: url(202-2020671_blood-drip-clip-art.png);
+  background-image: url('images/202-2020671_blood-drip-clip-art.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 50% 85%;
+  background-size: contain; /* prevents distortion */
   display: flex;
   justify-content: center;
   align-items: center;
