@@ -1,15 +1,13 @@
-const axios = require('axios');
-const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() });
-
 const express = require('express');
 const fs = require('fs');
+const axios = require('axios');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
+app.use(express.json());
 
 // Handle POST request for new user signup
 app.post('/signup', (req, res) => {
@@ -55,24 +53,30 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.post('/analyze', upload.single('imageFile'), async (req, res) => {
+app.post('/analyze', async (req, res) => {
   try {
-    // Takes image from browser
-    const image = req.file.buffer;
+    // Gets JSON data through index.html
+    const colorData = req.body;
+    console.log('Got color data from browser:', colorData);
 
-    // Sends image to server
-    const formData = new FormData();
-    formData.append('image', new Blob([image]), req.file.originalname);
+    // Puts JSON into Python server
+    const pythonResponse = await axios.post(
+      'http://localhost:5001/analyze',
+      colorData,
+      {
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
 
-    const pythonResponse = await axios.post('http://localhost:5000/extract_colors', formData);
-
+    // Sends AI response back to browser
+    console.log('Got response from Python:', pythonResponse.data);
     res.json(pythonResponse.data);
 
   } catch (error) {
-    console.error("Error in /analyze:", error);
-    res.status(500).json({ error: 'Failed to analyze image' });
+    console.error("Error in /analyze (JSON) route:", error.message);
+    res.status(500).json({ error: 'Failed to analyzze colors' });
   }
-})
+});
 
 // --- Start Server ---
 app.listen(PORT, () => {

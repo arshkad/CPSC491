@@ -690,6 +690,7 @@ def determine_season(skin_rgb, hair_rgb, eye_rgb):
     
     # Calculate overall saturation (color intensity)
     avg_saturation = (skin_hsv[1] + hair_hsv[1] + eye_hsv[1]) / 3
+    is_bright = avg_saturation > 0.4
     
     # Calculate contrast between features (CRITICAL for Winter detection)
     contrast_skin_hair = calculate_contrast(skin_rgb, hair_rgb)
