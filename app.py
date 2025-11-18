@@ -690,15 +690,23 @@ import os
 import sys
 
 # Add the logic folder to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'logic'))
+logic_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logic')
+if logic_path not in sys.path:
+    sys.path.insert(0, logic_path)
 
 # Import analysis modules
 try:
-    from colorpalette import determine_season, get_season_description, generate_palette, get_season_palette
+    import colorpalette
+    import undertone
+    
+    from colorpalette import determine_season, get_season_description, generate_palette, get_season_palette, rgb_to_hsv, calculate_contrast
     from undertone import analyze_undertone, get_undertone_recommendations, analyze_detailed_undertone
+    
+    print("✓ Successfully imported colorpalette and undertone modules")
 except ImportError as e:
     print(f"Warning: Could not import analysis modules: {e}")
-    print("Make sure colorpalette.py and undertone.py are in the 'logic' folder")
+    print(f"Logic path: {logic_path}")
+    print(f"Files in logic folder: {os.listdir('logic') if os.path.exists('logic') else 'logic folder not found'}")
     
     # Provide fallback functions
     def determine_season(skin_rgb, hair_rgb, eye_rgb):
@@ -721,6 +729,12 @@ except ImportError as e:
     
     def analyze_detailed_undertone(skin_rgb):
         return {"undertone": "warm", "warm_percentage": 50, "cool_percentage": 30, "neutral_percentage": 20}
+    
+    def rgb_to_hsv(rgb):
+        return (0, 0, 0)
+    
+    def calculate_contrast(color1, color2):
+        return 0.5
 
 app = Flask(__name__, static_folder='frontend', static_url_path='')
 CORS(app)  # Enable CORS for all routes
@@ -791,7 +805,6 @@ def analyze_colors():
         eye_rgb = parse_rgb(eye_color)
         
         # Calculate some debug values
-        from colorpalette import rgb_to_hsv, calculate_contrast
         skin_hsv = rgb_to_hsv(skin_rgb)
         hair_hsv = rgb_to_hsv(hair_rgb)
         contrast_skin_hair = calculate_contrast(skin_rgb, hair_rgb)
