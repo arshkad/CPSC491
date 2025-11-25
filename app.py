@@ -973,6 +973,87 @@ def signup():
         print(f"Error in signup: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+# ============ SETTINGS ROUTES ============
+
+@app.route('/get-user-info', methods=['POST'])
+def get_user_info():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+
+        if not os.path.exists('users.txt'):
+            return jsonify({'error': 'Database not found'}), 404
+        
+        with open('users.txt', 'r') as f:
+            lines = f.readlines()
+
+        for line in lines:
+            parts = line.strip().split(':')
+            # Checks if it's the correct user
+            if len(parts) >= 2 and parts[0] == username:
+                return jsonify({
+                    'username': parts[0],
+                    'email': parts[1]
+                })
+        return jsonify({'error': 'User not found'}), 404
+    except Exception as e:
+        print(f"Error getting user info: {e}")
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/update-password', methods=['POST'])
+def update_password():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        old_password = data.get('oldPassword')
+        new_password = data.get('newPassword')
+
+        if not os.parth.exists('users.txt'):
+            return jsonify({'success': False, 'message': 'Database error'}), 500
+        
+        with open('users.txt', 'r') as f:
+            lines = f.readlines()
+        
+        new_lines = []
+        user_found = False
+        password_correct = False
+
+        for line in lines:
+            line = line.strip()
+            if not line: continue
+
+            parts = line.split(':')
+
+            if parts[0] == username:
+                user_found = True
+                # Checks if old password will match
+                if len(parts) >= 3 and parts[2] == old_password:
+                    password_correct = True
+                    # Makes a new line with the new password
+                    new_line = f"{parts[0]}:{parts[1]}:{new_password}\n"
+                    new_lines.append(new_line)
+                else:
+                    # Old password is wrong
+                    new_lines.append(line + '\n')
+            else:
+                # Not the user
+                new_lines.append(line + '\n')
+        
+        if not user_found:
+            return jsonify({'success': False, 'message': 'User not found'})
+        
+        if not password_correct:
+            return jsonify({'success': False, 'message': 'Old password is incorrect'})
+        
+        with open('users.txt', 'w') as f:
+            f.writelines(new_lines)
+
+        return jsonify({'success': True, 'message': 'Password updated successfully'})
+    
+    except Exception as e:
+        print(f"Error updating password: {e}")
+        return jsonify({'success': False, 'message': f'Server error: {str(e)}'}), 500
+
 # Error handlers
 @app.errorhandler(404)
 def not_found(e):
@@ -1008,4 +1089,4 @@ if __name__ == '__main__':
     print("="*50 + "\n")
     
     # Run the Flask app
-    app.run(debug=True, port=5001, host='0.0.0.0')
+    app.run(debug=True, use_reloader=False, port=5001, host='0.0.0.0')

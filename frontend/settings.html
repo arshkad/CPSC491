@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - ColorMe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/images/color-wheel-guide-isolated-on-transparent-vector-48630416.webp">
+</head>
+<body class="center-login">
+
+    <div class="wrapper" style="height: auto; min-height: 45vh;">
+        <h1>Settings</h1>
+        
+        <div id="user-details" style="text-align: left; margin-bottom: 20px;">
+            <p><strong>Username:</strong> <span id="username-display">Loading...</span></p>
+            <p><strong>Email:</strong> <span id="email-display">Loading...</span></p>
+        </div>
+
+        <form id="password-form">
+            <h3>Change Password</h3>
+            <div>
+                <label for="old-password">Old Password:</label>
+                <input type="password" id="old-password" name="oldPassword" required>
+            </div>
+            <br>
+            <div>
+                <label for="new-password">New Password:</label>
+                <input type="password" id="new-password" name="newPassword" required>
+            </div>
+            <br>
+            <div>
+                <label for="confirm-password">Confirm New Password:</label>
+                <input type="password" id="confirm-password" name="confirmPassword" required>
+            </div>
+            <br>
+            <button type="submit">Update Password</button>
+        </form>
+        
+        <p id="settings-message" style="margin-top: 15px;"></p>
+        <p style="margin-top: 20px;"><a href="Dashboard.html">← Back to Dashboard</a></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Checks if user is logged in
+            const loggedInUser = sessionStorage.getItem('loggedInUser');
+            const msgBox = document.getElementById('settings-message');
+
+            if (!loggedInUser) {
+                // Brings user back to login page if not logged in
+                window.location.href = '/Login page.html';
+                return;
+            }
+
+            // Asks server for user's info
+            fetch('/get-user-info', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: loggedInUser })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Updates HTML via real data
+                if (data.username) {
+                    document.getElementById('username-display').textContent = data.username;
+                    document.getElementById('email-display').textContent = data.email;
+                } else {
+                    document.getElementById('username-display').textContent = loggedInUser;
+                    document.getElementById('email-display').textContent = "Unknown (Error fetching data)";
+                }
+            });
+            document.getElementById('password-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const oldPassword = document.getElementById('old-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                msgBox.style.color = 'black';
+                msgBox.textContent= 'Updating...';
+
+                if (newPassword !== confirmPassword) {
+                    msgBox.style.color = 'red';
+                    msgBox.textContent = 'New passwords do not match!';
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/update-password', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: loggedInUser,
+                            oldPassword: oldPassword,
+                            newPassword: newPassword
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        msgBox.style.color = 'green';
+                        msgBox.textContent = 'Password changed successfully!';
+
+                        document.getElementById('password-form').reset();
+                    } else {
+                        msgBox.style.color = 'red';
+                        msgBox.textContent = result.message || 'Failed to update password.';
+                    }
+                
+                } catch (error) {
+                    console.error('Error:', error);
+                    msgBox.style.color = 'red';
+                    msgBox.textContent = 'An server error occurred.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
