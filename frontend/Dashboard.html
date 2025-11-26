@@ -3,6 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="Dash.css">
+   <link rel="icon" type="image/x-icon" href="color-wheel-guide-isolated-on-transparent-vector-48630416.webp">
+  <title>Document</title>
+</head>
+<body class="BG-image"></body>
+<body>
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">Profile</a>
+    <a href="/frontend/Color_Collection.html">Color Collections</a>
+    <a href="#">Settings</a>
+    <a href="#">Log out</a>
+  </div>
+  
+  <span onclick="openNav()">
+    <div id="sidebar_icon">
+        <div class="sidebar_icon"></div>
+        <div class="sidebar_icon"></div>
+        <div class="sidebar_icon"></div>
+    </div>
+  </span>
+  <div>
+    <!--add any content between this div-->
+    <div class="Greetings">
+       <h1>ColorMe Dashboard</h1>
+       <p>Start your color </p>
+    </div>
+   <div class="selection">
+      <a href="#">Start new report</a>
+      <a href="#">View previous report</a>
+   </div>
+   <table id="myTable">
+    <tr class="header">
+      <th style="width: 60%">Recent reports</th>
+      <th style="width: 40%"> Date created</th>
+    </tr>
+   </table>
+
+   <script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
+  </div>
+</body>
+</html>
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="Dash.css">
   <link rel="stylesheet" href="dashAnim.css">
@@ -53,6 +112,17 @@
         </li>
       </ul>
     </nav>
+    <div id="sidebar" class="fixed-sidebar">
+          <ul>
+            <li><i class="symbol-home"></i><span class="link-text">Dashboard</span></li>
+            <li><i class="symbol-grid"></i><span class="link-text">Color Collection</span></li>
+            <li><i class="symbol-download"></i><span class="link-text">Download</span></li>
+            <li><i class="symbol-settings"></i><span class="link-text">Settings</span></li>
+            <li><i class="symbol-logout"></i><span class="link-text">Log out</span></li>
+          </ul>
+
+          <button id="toggle-btn" class="collapse-btn">Collapse</button>
+        </div>
   </aside>
   <main class="mainAnim">
     <h1>Home Page</h1>
@@ -63,7 +133,10 @@
       <a href="#">View previous report</a>
       <span></span>
     </nav>
+
+
   <script>
+      const sidebar = document.getElementById("sidebar");
       const resizeBtn = document.querySelector('[data-resize-btn]');
       resizeBtn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -76,5 +149,20 @@
         window.location.href = '/';
       });
     </script>
+
+
+
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const toggleBtn = document.getElementById("toggle-btn");
+
+    toggleBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("Collapsed");
+      toggleBtn.textContent = sidebar.classlist.contain("Collapsed") ? ">>" : "<<"
+    });
+  </script>
+
 </body>
 </html>
+
+-->

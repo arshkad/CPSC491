@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Col_Collec.css"">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+         <div class="Greetings">
+            <h1>Your color reports, stored here!</h1>
+         </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContent", loadReports);
+
+        function loadReports() {
+            const reports = JSON.parse(localStorage.getItem(reports)) || [];
+            const tableBody = document.getElementById("reportBody");
+
+            tableBody.innerHTML ="";
+
+            reports.forEach(element => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                <td>${report.name}</td>
+                <td>${report.name}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function addReport(reportName) {
+            const reports = JSON.parse(localStorage.getItem())
+        }
+    </script>
+</body>
+</html>
