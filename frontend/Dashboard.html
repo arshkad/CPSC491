@@ -51,6 +51,12 @@
       document.getElementById("mySidenav").style.width = "0";
       document.getElementById("main").style.marginLeft = "0";
     }
+
+    document.getElementById('logout-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      sessionStorage.removeItem('loggedInUser');
+      window.location.href = '/';
+    });
   </script>
   </div>
 </body>
