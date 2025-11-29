@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="Dash.css">
-  <link rel="stylesheet" href="dashAnim.css">
-   <link
-    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-    rel="stylesheet" href="./style.css">
+  <!--<link rel="stylesheet" href="dashAnim.css"> -->
+   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" href="./style.css">
+    <link rel="icon" type="image/x-icon" href="/images/color-wheel-guide-isolated-on-transparent-vector-48630416.webp">
 </head>
 
+<body class="BG-image"></body>
 <body class="sb-decor">
   <aside class="sidebar">
     <nav>
@@ -54,15 +54,29 @@
       </ul>
     </nav>
   </aside>
-  <main class="mainAnim">
-    <h1>Home Page</h1>
-    <p>What's the plan</p>
-      <nav class="animOptions-nav">
-      <a href="#">Home</a>
+ <!-- <main class="mainAnim"> -->
+  <div class="greeting">
+    <h1>ColorMe Dashboard</h1>
+    <p>Let's start a ColorMe report</p>
+  </div>
+      <!--<nav class="animOptions-nav"> -->
+    <div class="selection">
       <a href="#">Start new report</a>
       <a href="#">View previous report</a>
+    </div>
+    <!---
+      <a href="#">Start new report</a>
+      <a href="#">View previous report</a>
+  -->
+      <!--</main> -->
       <span></span>
     </nav>
+    <table id="myTable">
+        <tr class="header">
+          <th style="width: 60%">Recent reports</th>
+          <th style="width: 40%">Date created</th>
+        </tr>
+      </table>
   <script>
       const resizeBtn = document.querySelector('[data-resize-btn]');
       resizeBtn.addEventListener('click', function(e) {

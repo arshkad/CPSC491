@@ -8,6 +8,38 @@ body {
     background-color: white;
 }
 
+
+body.BG-image {
+    
+  background-image: url('images/202-2020671_blood-drip-clip-art.png');
+  background-repeat: no-repeat;
+  background-position: 63% center;
+  background-size: contain; 
+  min-height: 80vh;
+  
+}
+
+#myTable {
+    margin-top: 280px;
+    border-collapse: collapse;
+    width: 50%;
+    border: 1px solid #656363;
+    font-size: 18px;
+}
+
+#myTable th #myTable td {
+    text-align: left;
+    padding: 12px;
+}
+
+#myTable tr {
+    border-bottom: 1px solid #807f7f;
+}
+
+#myTable tr.header, #myTable tr:hover {
+    background-color: #f1f1f1;
+} 
+
 body.sb-decor main {
     /*--sb-width: 12.5rem;*/
     margin-left: 12.5rem;
@@ -99,15 +131,44 @@ nav a span {
     width: 12.5rem;
 }
 
-main {
+.selection {
+    /*
     text-align: center;
     margin-left: 5rem;
     padding: 1rem 2rem;
-    transition: margin-left 0.5s ease-in-out;
+    transition: margin-left 0.5s ease-in-out; */
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+    background-color: #d79a3e;
+    overflow: auto;
+}
+
+.selection a {
+    float: left;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+    width: 250%;
+    text-align: center;
+}
+
+.selection a:hover {
+    background-color: #581fb9;
+}
+
+.selection a.active {
+    background-color: #04AA6D;
+}
+
+.greeting {
+    text-align: center;
 }
 
 @media (min-width: 768px) {
-    main {
+    .mainAnim {
         margin-left: var(--sb-width);
     }
 }
