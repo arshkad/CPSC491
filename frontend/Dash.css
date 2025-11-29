@@ -13,7 +13,7 @@ body.BG-image {
     
   background-image: url('images/202-2020671_blood-drip-clip-art.png');
   background-repeat: no-repeat;
-  background-position: 63% center;
+  background-position: 50% center;
   background-size: contain; 
   min-height: 80vh;
   
@@ -165,6 +165,7 @@ nav a span {
 
 .greeting {
     text-align: center;
+    color: white
 }
 
 @media (min-width: 768px) {
