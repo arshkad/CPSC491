@@ -1,126 +1,4 @@
-.sidebar_icon {
-    width: 35px;
-    height: 5px;
-    background-color: black;
-    margin: 6px 0;
-}
 
-.sidenav {
-    height: 100vh;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #36bff1;
-    overflow-x: hidden;
-    padding-top: 60px;
-    transition: 0.5s;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-#main {
-    transition: margin-left .5s;
-    padding: 20px;
-}
-
-@media screen and (max-height:450px) {
-    .sidenav {padding-top: 15px}
-    .sidenav a {font-size: 18px}
-}
-
-.selection {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    width: 100%;
-    background-color:#d79a3e;
-    overflow: auto;
-}
-
-.selection a {
-    float: left;
-    padding: 12px;
-    color: white;
-    text-decoration: none;
-    font-size: 17px;
-    width: 250%;
-    text-align: center;
-}
-
-.selection a:hover {
-    background-color: #581fb9;
-}
-
-.selection a.active {
-    background-color: #04AA6D
-}
-
-@media screen and (max-width: 500px) {
-    .selection a {
-        float: none;
-        display: block;
-        width: 100%;
-        text-align: left;
-    }
-}
-
-#myTable {
-    margin-top: 280px;
-    border-collapse: collapse;
-    width: 50%;
-    border: 1px solid #656363;
-    font-size: 18px;
-}
-
-#myTable th, #myTable td {
-    text-align: left;
-    padding: 12px;
-}
-
-#myTable tr {
-    border-bottom: 1px solid #807f7f;
-}
-
-#myTable tr.header, #myTable tr:hover {
-    background-color: #f1f1f1;
-}
-
-.Greetings {
-    text-align: center;
-}
-
-body.BG-image {
-  background-image: url('images/202-2020671_blood-drip-clip-art.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain; /* prevents distortion */
-  min-height: 80vh;
-}
-  
-
-
-/*
 body {
     --sb-width: 5rem;
     font-family: system-ui, sans-serif;
@@ -131,7 +9,7 @@ body {
 }
 
 body.sb-decor main {
-    sb-width: 12.5rem;
+    /*--sb-width: 12.5rem;*/
     margin-left: 12.5rem;
 }
 
@@ -150,11 +28,11 @@ aside {
     /*top: 0;
     left: 0;
     bottom: 0;
-    
+    */
     inset:0 auto 0 0;
     padding: 1rem; 
     width: 5rem;
-    /*width: 80px;
+    /*width: 80px;*/
     background-image: linear-gradient(rgb(55, 195, 216), blue, green, orange);
     transition: width 0.5s ease-in-out;
 }
@@ -232,37 +110,4 @@ main {
     main {
         margin-left: var(--sb-width);
     }
-}
-
-.sidebar {
-    width: 230px;
-    transition: width 0.3s ease;
-    overflow:hidden;
-}
-
-.collapse-btn {
-    width: 100%px;
-    background: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-}
-
-.sidebar.collapsed {
-    width: 70px;
-}
-
-.sidebar.collapsed .link-text {
-    display: none;
-}
-
-.sidebar li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.sidebar.collapsed li {
-    justify-content: center;
-    gap: 0;
 }
