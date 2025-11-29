@@ -68,7 +68,6 @@
       font-weight: 500;
     }
 
-    /* Enhanced color picker preview */
     #color-preview {
       position: fixed;
       width: 80px;
@@ -189,7 +188,6 @@
 
     <canvas id="canvas"></canvas>
     
-    <!-- Enhanced color picker elements -->
     <div id="color-preview"></div>
     <div id="color-info"></div>
     
@@ -269,29 +267,24 @@
       const pixel = ctx.getImageData(x, y, 1, 1).data;
       const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
 
-      // Show color preview circle with center dot
       colorPreview.style.display = 'block';
       colorPreview.style.backgroundColor = rgb;
       colorPreview.style.left = (e.clientX + 20) + 'px';
       colorPreview.style.top = (e.clientY - 40) + 'px';
 
-      // Show color info tooltip
       colorInfo.style.display = 'block';
       colorInfo.textContent = `RGB(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
       colorInfo.style.left = (e.clientX + 110) + 'px';
       colorInfo.style.top = (e.clientY - 40) + 'px';
 
-      // Keep crosshair cursor
       imgElement.style.cursor = 'crosshair';
     }
 
-    // Hide color preview when mouse leaves image
     function hideColorPreview() {
       colorPreview.style.display = 'none';
       colorInfo.style.display = 'none';
     }
 
-    // Check if all colors are picked to show analyze button
     function checkAllColorsPicked() {
       const skinColor = document.getElementById('skin-color').style.backgroundColor;
       const hairColor = document.getElementById('hair-color').style.backgroundColor;
@@ -317,17 +310,14 @@
       document.getElementById(currentPick + '-color').style.backgroundColor = rgb;
       instructions.textContent = currentPick.charAt(0).toUpperCase() + currentPick.slice(1) + ' color selected!';
       currentPick = null;
-      
-      // Show analyze button when all colors are picked
+
       checkAllColorsPicked();
     }
 
-    // Analyze button click handler
     document.getElementById('analyze-btn').addEventListener('click', async () => {
       const analyzeBtn = document.getElementById('analyze-btn');
       const resultElement = document.getElementById('analysis-result');
-      
-      // Show loading state
+
       analyzeBtn.textContent = 'Analyzing...';
       analyzeBtn.disabled = true;
       
@@ -340,26 +330,18 @@
         hair: hairColor,
         eyes: eyeColor
       };
-      
-      console.log('Sending color data:', colorData);
-      
+
       try {
         const response = await fetch('/analyze', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(colorData)
         });
         
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         const result = await response.json();
-        console.log('Analysis result:', result);
-        
-        // Display the result with beautiful styling
+
         resultElement.innerHTML = `
           <div style="
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -376,6 +358,7 @@
               <p style="font-size: 18px; margin: 10px 0;"><strong>🎨 Undertone:</strong> ${result.undertone}</p>
             </div>
             <p style="font-size: 16px; margin-top: 15px; line-height: 1.6;">${result.message}</p>
+
             <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: center;">
               <div style="text-align: center;">
                 <p style="margin-bottom: 5px; font-size: 12px; opacity: 0.8;">Skin</p>
@@ -390,15 +373,32 @@
                 <div style="width: 50px; height: 50px; background-color: ${eyeColor}; border: 3px solid white; border-radius: 50%; margin: 0 auto;"></div>
               </div>
             </div>
+
+            <!-- ⭐ ADDED SIGN UP + LOGIN BUTTONS -->
+            <div style="margin-top: 25px; display: flex; justify-content: center; gap: 20px;">
+              <a href="/signup.html" 
+                 style="background: #6fa8ff; padding: 12px 20px; border-radius: 8px; color: white; text-decoration: none; font-weight: 600;">
+                 Sign Up
+              </a>
+              <a href="/Login page.html" 
+                 style="background: #764ba2; padding: 12px 20px; border-radius: 8px; color: white; text-decoration: none; font-weight: 600;">
+                 Log In
+              </a>
+            </div>
+
+            <p style="margin-top: 15px; font-size: 14px; opacity: 0.9;">
+              Sign up to save your results or log in if you already have an account!
+            </p>
+
           </div>
         `;
         
-        // Reset button
         analyzeBtn.textContent = 'Analyze My Colors';
         analyzeBtn.disabled = false;
         
       } catch (error) {
-        console.error('Error analyzing colors:', error);
+        console.error('Error analyzing:', error);
+
         resultElement.innerHTML = `
           <div style="
             background-color: #ffebee;
@@ -408,17 +408,11 @@
             margin-top: 20px;
             border-left: 4px solid #c62828;
           ">
-            <p style="margin: 0; font-size: 16px;">
-              <strong>❌ Error:</strong> Unable to analyze colors. 
-              Please make sure the server is running at http://localhost:5001
-            </p>
-            <p style="margin: 10px 0 0 0; font-size: 14px; opacity: 0.8;">
-              Error details: ${error.message}
-            </p>
+            <p><strong>❌ Error:</strong> Unable to analyze colors.</p>
+            <p style="opacity: 0.8;">${error.message}</p>
           </div>
         `;
-        
-        // Reset button
+
         analyzeBtn.textContent = 'Analyze My Colors';
         analyzeBtn.disabled = false;
       }
