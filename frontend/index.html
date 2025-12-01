@@ -10,7 +10,14 @@
   <title>ColorMe</title>
   <link rel="icon" type="image/x-icon" href="/images/color-wheel-guide-isolated-on-transparent-vector-48630416.webp">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     canvas { display: none; }
+    
     .content {
       position: relative;
       z-index: 1;
@@ -19,88 +26,92 @@
       align-items: center;
       min-height: 100vh;
       flex-direction: column;
-      padding: 20px;
+      padding: 40px 20px; 
       text-align: center;
+      gap: 25px; 
+    }
+
+    h1 {
+      margin-bottom: 10px; 
     }
 
     #drop {
       background-color: #a1c4fd;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 40px;
+      border-radius: 20px;
       text-align: center;
-      width: 90%;
-      max-width: 500px;
+      width: 95%;
+      max-width: 900px; 
       box-sizing: border-box;
       position: relative;
+      margin: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
 
     .color-display {
       display: none;
       justify-content: center;
-      gap: 15px;
-      margin-top: 15px;
+      gap: 30px; 
+      margin-top: 25px;
       flex-wrap: wrap;
     }
     
     .color-box {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
-      border: 2px solid #333;
+      width: 70px; 
+      height: 70px;
+      border-radius: 50%;
+      border: 4px solid white;
       cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       transition: transform 0.2s;
     }
     
     .color-box:hover {
-      transform: scale(1.1);
+       transform: scale(1.1);
     }
     
     .upload-box img {
-      max-width: 250px;
-      border-radius: 10px;
-      margin-top: 10px;
+      max-width: 100%;
+      max-height: 600px; 
+      width: auto;
+      height: auto;
+      border-radius: 15px;
+      margin-top: 20px;
       cursor: crosshair;
+      object-fit: contain;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     #instructions {
       text-align: center;
-      margin-top: 10px;
-      font-weight: 500;
+      margin-top: 20px;
+      font-weight: 600;
+      color: #333;
+      font-size: 1.1rem;
     }
 
     #color-preview {
       position: fixed;
-      width: 80px;
-      height: 80px;
-      border: 3px solid white;
+      width: 100px; 
+      height: 100px;
+      border: 4px solid white;
       border-radius: 50%;
       pointer-events: none;
       display: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       z-index: 1000;
-    }
-
-    #color-preview::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 4px;
-      height: 4px;
-      background: black;
-      border: 1px solid white;
-      border-radius: 50%;
-      box-shadow: 0 0 0 1px black;
     }
 
     #color-info {
       position: fixed;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.9);
       color: white;
-      padding: 8px 12px;
+      padding: 10px 15px;
       border-radius: 8px;
-      font-size: 12px;
+      font-size: 14px;
       font-family: monospace;
       pointer-events: none;
       display: none;
@@ -108,84 +119,88 @@
       white-space: nowrap;
     }
 
-    #analyze-btn {
-      margin-top: 20px;
-      padding: 12px 30px;
-      border-radius: 8px;
-      background-color: #6fa8ff;
-      border: none;
+    /* --- BUTTON STYLES --- */
+    .btn-gradient {
+      padding: 14px 35px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
+      border: none;
+      border-radius: 12px;
       font-size: 16px;
-      cursor: pointer;
-      display: none;
-      transition: all 0.3s ease;
       font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      text-decoration: none;
+      display: inline-block;
+      margin: 10px;
     }
 
-    #analyze-btn:hover:not(:disabled) {
-      background-color: #5a96e8;
+    .btn-gradient:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(111, 168, 255, 0.4);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
 
-    #analyze-btn:disabled {
-      background-color: #ccc;
+    .btn-gradient:disabled {
+      background: linear-gradient(135deg, #ccc 0%, #999 100%);
       cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-outline {
+      padding: 10px 20px;
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 15px;
+    }
+
+    .btn-outline:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      padding: 10px 20px;
+      background: #ffebee;
+      color: #d32f2f;
+      border: 2px solid #ffcdd2;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 15px;
+    }
+
+    .btn-danger:hover {
+      background: #ffcdd2;
+      transform: translateY(-2px);
+    }
+
+    #analyze-btn {
+      margin-top: 30px;
+      font-size: 18px; 
+      display: none;
     }
 
     #analysis-result {
-      margin-top: 20px;
+      margin-top: 30px;
       font-weight: bold;
-      width: 90%;
-      max-width: 600px;
+      width: 100%;
+      max-width: 700px;
     }
-
-    .save-btn {
-      background: #6fa8ff;
-      padding: 12px 20px;
-      border-radius: 8px;
-      color: white;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .save-btn:hover {
-      background: #5a96e8;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(111, 168, 255, 0.4);
-    }
-
-    .login-btn {
-      background: #764ba2;
-      padding: 12px 20px;
-      border-radius: 8px;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s;
-      display: inline-block;
-    }
-
-    .login-btn:hover {
-      background: #5f3a87;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
-    }
-
+    
     @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    } 
   </style>
 </head>
 <body>
@@ -194,44 +209,76 @@
   <div class="content">
     <h1>ColorMe</h1>
 
-    <div class="login-button-container">
-      <a href="/Login page.html" class="middle-login">Login</a>
-      <a href="/signup.html" class="middle-signup">Sign Up</a>
+    <div id="loggedOutContent" style="display: none;">
+      <div class="login-button-container">
+        <a href="/Login-page.html" class="btn-gradient">Login</a>
+        <a href="/signup.html" class="btn-gradient">Sign Up</a>
+      </div>
     </div>
 
-    <div class="upload-box" id="drop">
-      <h2>Upload a Photo</h2>
-      <p>Choose a file or drag & drop an image here</p>
-      <input id="file" type="file" accept="image/*">
-
-      <div class="color-display" id="colors">
-        <div>
-          <p>Skin</p>
-          <div id="skin-color" class="color-box"></div>
-        </div>
-        <div>
-          <p>Hair</p>
-          <div id="hair-color" class="color-box"></div>
-        </div>
-        <div>
-          <p>Eyes</p>
-          <div id="eye-color" class="color-box"></div>
+    <div id="loggedInContent" style="display: none; flex-direction: column; align-items: center; width: 100%;">
+      
+      <div style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 15px; align-items: center;">
+        <h2 id="welcome-message" style="margin: 0; color: #333; font-size: 1.8rem;"></h2>
+        <div style="display: flex; gap: 15px;">
+            <a href="/Dashboard.html" class="btn-outline">Dashboard</a>
+            <button onclick="logout()" class="btn-danger">Logout</button>
         </div>
       </div>
 
-      <p id="instructions"></p>
-    </div>
+      <div class="upload-box" id="drop">
+        <h2>Upload a Photo</h2>
+        <p style="color: #555; margin-top: 10px;">Choose a file or drag & drop an image here</p>
+        <input id="file" type="file" accept="image/*" style="margin-top: 20px;">
 
-    <canvas id="canvas"></canvas>
+        <div class="color-display" id="colors">
+          <div style="text-align: center;">
+            <p style="margin-bottom: 8px; font-weight: bold;">Skin</p>
+            <div id="skin-color" class="color-box" style="background-color: #eee;"></div>
+          </div>
+          <div style="text-align: center;">
+            <p style="margin-bottom: 8px; font-weight: bold;">Hair</p>
+            <div id="hair-color" class="color-box" style="background-color: #eee;"></div>
+          </div>
+          <div style="text-align: center;">
+            <p style="margin-bottom: 8px; font-weight: bold;">Eyes</p>
+            <div id="eye-color" class="color-box" style="background-color: #eee;"></div>
+          </div>
+        </div>
+
+        <p id="instructions"></p>
+      </div>
+      
+      <button id="analyze-btn" class="btn-gradient">Analyze My Colors</button>
+      <div id="analysis-result"></div>
+    </div> 
     
+    <canvas id="canvas"></canvas>
     <div id="color-preview"></div>
     <div id="color-info"></div>
-    
-    <button id="analyze-btn">Analyze My Colors</button>
-    <div id="analysis-result"></div>
   </div>
 
   <script>
+    // --- 1. AUTO-DETECT LOGIN STATUS ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const loggedInUser = sessionStorage.getItem('loggedInUser');
+      
+      if (loggedInUser) {
+        document.getElementById('loggedInContent').style.display = 'flex';
+        document.getElementById('loggedOutContent').style.display = 'none';
+        document.getElementById('welcome-message').textContent = `Welcome, ${loggedInUser}!`;
+      } else {
+        document.getElementById('loggedInContent').style.display = 'none';
+        document.getElementById('loggedOutContent').style.display = 'block';
+      }
+    });
+
+    function logout() {
+      sessionStorage.removeItem('loggedInUser');
+      window.location.reload();
+    }
+
+    // --- 2. UPLOAD & COLOR PICKING LOGIC ---
     const drop = document.getElementById('drop');
     const fileInput = document.getElementById('file');
     const canvas = document.getElementById('canvas');
@@ -249,13 +296,12 @@
 
     drop.addEventListener('drop', e => {
       const file = e.dataTransfer.files[0];
-      if(file) fileInput.files = e.dataTransfer.files;
-      showPreview(file);
+      if(file) { fileInput.files = e.dataTransfer.files; showPreview(file); }
     });
 
     fileInput.addEventListener('change', e => {
       const file = e.target.files[0];
-      if(file) showPreview(file);
+      if(file) { showPreview(file); }
     });
 
     function showPreview(file) {
@@ -267,9 +313,13 @@
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
 
-          drop.innerHTML = '<img src="' + ev.target.result + '" id="preview">';
-          drop.appendChild(colorsDiv);
-          drop.appendChild(instructions);
+          const oldPreview = document.getElementById('preview');
+          if(oldPreview) oldPreview.remove();
+
+          const previewImg = document.createElement('img');
+          previewImg.src = ev.target.result;
+          previewImg.id = 'preview';
+          fileInput.insertAdjacentElement('afterend', previewImg);
 
           imgElement = document.getElementById('preview');
           imgElement.addEventListener('mousemove', updateCursorColor);
@@ -277,7 +327,7 @@
           imgElement.addEventListener('click', pickColor);
 
           colorsDiv.style.display = 'flex';
-          instructions.textContent = 'Click a color box (Skin, Hair, or Eyes) to start picking from the photo.';
+          instructions.textContent = 'Click a circle below (Skin, Hair, or Eyes), then click that color on your photo.';
         };
         img.src = ev.target.result;
       };
@@ -287,19 +337,21 @@
     document.querySelectorAll('.color-box').forEach(box => {
       box.addEventListener('click', () => {
         currentPick = box.id.split('-')[0];
-        instructions.textContent = 'Click on your ' + currentPick + ' color in the photo.';
+        document.querySelectorAll('.color-box').forEach(b => b.style.border = '4px solid white');
+        box.style.border = '4px solid #667eea';
+        instructions.textContent = `Picking ${currentPick.toUpperCase()} color... click on the photo!`;
       });
     });
-
+    
     function updateCursorColor(e) {
       if (!imgElement) return;
-
       const rect = imgElement.getBoundingClientRect();
-      const scaleX = canvas.width / imgElement.width;
-      const scaleY = canvas.height / imgElement.height;
+      const scaleX = imgElement.naturalWidth / rect.width;
+      const scaleY = imgElement.naturalHeight / rect.height;
+      
       const x = (e.clientX - rect.left) * scaleX;
       const y = (e.clientY - rect.top) * scaleY;
-
+      
       const pixel = ctx.getImageData(x, y, 1, 1).data;
       const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
 
@@ -307,12 +359,12 @@
       colorPreview.style.backgroundColor = rgb;
       colorPreview.style.left = (e.clientX + 20) + 'px';
       colorPreview.style.top = (e.clientY - 40) + 'px';
-
+      
       colorInfo.style.display = 'block';
-      colorInfo.textContent = `RGB(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+      colorInfo.textContent = rgb;
       colorInfo.style.left = (e.clientX + 110) + 'px';
       colorInfo.style.top = (e.clientY - 40) + 'px';
-
+      
       imgElement.style.cursor = 'crosshair';
     }
 
@@ -321,51 +373,50 @@
       colorInfo.style.display = 'none';
     }
 
-    function checkAllColorsPicked() {
-      const skinColor = document.getElementById('skin-color').style.backgroundColor;
-      const hairColor = document.getElementById('hair-color').style.backgroundColor;
-      const eyeColor = document.getElementById('eye-color').style.backgroundColor;
+    function pickColor(e) {
+      if(!currentPick) {
+        instructions.textContent = 'Please click a circle below first!';
+        return;
+      }
+      const rect = imgElement.getBoundingClientRect();
+      const scaleX = imgElement.naturalWidth / rect.width;
+      const scaleY = imgElement.naturalHeight / rect.height;
+      const x = (e.clientX - rect.left) * scaleX;
+      const y = (e.clientY - rect.top) * scaleY;
+      const pixel = ctx.getImageData(x, y, 1, 1).data;
+      const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
       
-      if (skinColor && hairColor && eyeColor) {
+      const targetId = currentPick === 'eye' ? 'eye-color' : currentPick + '-color';
+      document.getElementById(targetId).style.backgroundColor = rgb;
+      
+      instructions.textContent = `${currentPick.toUpperCase()} color selected!`;
+      document.getElementById(targetId).style.border = '4px solid white';
+      currentPick = null;
+      
+      checkAllColorsPicked();
+    }
+
+    function checkAllColorsPicked() {
+      const s = document.getElementById('skin-color').style.backgroundColor;
+      const h = document.getElementById('hair-color').style.backgroundColor;
+      const e = document.getElementById('eye-color').style.backgroundColor;
+      
+      if (s && s !== 'rgb(238, 238, 238)' && h && h !== 'rgb(238, 238, 238)' && e && e !== 'rgb(238, 238, 238)') {
         document.getElementById('analyze-btn').style.display = 'block';
       }
     }
 
-    function pickColor(e) {
-      if(!currentPick) return;
-
-      const rect = imgElement.getBoundingClientRect();
-      const scaleX = canvas.width / imgElement.width;
-      const scaleY = canvas.height / imgElement.height;
-      const x = (e.clientX - rect.left) * scaleX;
-      const y = (e.clientY - rect.top) * scaleY;
-
-      const pixel = ctx.getImageData(x, y, 1, 1).data;
-      const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
-
-      document.getElementById(currentPick + '-color').style.backgroundColor = rgb;
-      instructions.textContent = currentPick.charAt(0).toUpperCase() + currentPick.slice(1) + ' color selected!';
-      currentPick = null;
-
-      checkAllColorsPicked();
-    }
-
+    // --- 3. SEND DATA TO SERVER ---
     document.getElementById('analyze-btn').addEventListener('click', async () => {
       const analyzeBtn = document.getElementById('analyze-btn');
       const resultElement = document.getElementById('analysis-result');
-
       analyzeBtn.textContent = 'Analyzing...';
       analyzeBtn.disabled = true;
       
       const skinColor = document.getElementById('skin-color').style.backgroundColor;
       const hairColor = document.getElementById('hair-color').style.backgroundColor;
       const eyeColor = document.getElementById('eye-color').style.backgroundColor;
-      
-      const colorData = {
-        skin: skinColor,
-        hair: hairColor,
-        eyes: eyeColor
-      };
+      const colorData = { skin: skinColor, hair: hairColor, eyes: eyeColor };
 
       try {
         const response = await fetch('/analyze', {
@@ -375,39 +426,24 @@
         });
         
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
         const result = await response.json();
 
-        // ⭐ STORE RESULTS IN SESSION STORAGE FOR SIGNUP/LOGIN
         sessionStorage.setItem('pendingResults', JSON.stringify({
           season: result.season,
           undertone: result.undertone,
           message: result.message,
-          colors: {
-            skin: skinColor,
-            hair: hairColor,
-            eyes: eyeColor
-          },
+          colors: { skin: skinColor, hair: hairColor, eyes: eyeColor },
           timestamp: new Date().toISOString()
         }));
 
         resultElement.innerHTML = `
-          <div style="
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: slideIn 0.5s ease-out;
-          ">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: slideIn 0.5s ease-out;">
             <h2 style="margin: 0 0 20px 0; font-size: 28px;">✨ Your Color Analysis Results</h2>
             <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
               <p style="font-size: 18px; margin: 10px 0;"><strong>🌸 Season:</strong> ${result.season}</p>
               <p style="font-size: 18px; margin: 10px 0;"><strong>🎨 Undertone:</strong> ${result.undertone}</p>
             </div>
             <p style="font-size: 16px; margin-top: 15px; line-height: 1.6;">${result.message}</p>
-
             <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: center;">
               <div style="text-align: center;">
                 <p style="margin-bottom: 5px; font-size: 12px; opacity: 0.8;">Skin</p>
@@ -422,21 +458,6 @@
                 <div style="width: 50px; height: 50px; background-color: ${eyeColor}; border: 3px solid white; border-radius: 50%; margin: 0 auto;"></div>
               </div>
             </div>
-
-            <!-- ⭐ UPDATED SAVE BUTTONS -->
-            <div style="margin-top: 25px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-              <button onclick="saveAndSignUp()" class="save-btn">
-                💾 Sign Up to Save Results
-              </button>
-              <a href="/Login page.html?save=true" class="login-btn">
-                🔑 Log In to Save
-              </a>
-            </div>
-
-            <p style="margin-top: 15px; font-size: 14px; opacity: 0.9;">
-              💡 Create a free account to save your color analysis and access it anytime!
-            </p>
-
           </div>
         `;
         
@@ -444,34 +465,21 @@
         analyzeBtn.disabled = false;
         
       } catch (error) {
-        console.error('Error analyzing:', error);
-
+        console.error('Error:', error);
         resultElement.innerHTML = `
-          <div style="
-            background-color: #ffebee;
-            color: #c62828;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid #c62828;
-          ">
+          <div style="background-color: #ffebee; color: #333; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #c62828;">
             <p><strong>❌ Error:</strong> Unable to analyze colors.</p>
             <p style="opacity: 0.8;">${error.message}</p>
           </div>
         `;
-
         analyzeBtn.textContent = 'Analyze My Colors';
         analyzeBtn.disabled = false;
       }
     });
 
-    // ⭐ FUNCTION TO REDIRECT TO SIGNUP WITH SAVED RESULTS
     function saveAndSignUp() {
-      // Results are already stored in sessionStorage
       window.location.href = '/signup.html';
     }
   </script>
 </body>
 </html>
-
-<!-- CLAUDE TEST -->

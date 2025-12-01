@@ -420,57 +420,66 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-import sys
 import json
 import jwt
 import datetime
-from functools import wraps
-
-# Add the logic folder to the Python path
-logic_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logic')
-if logic_path not in sys.path:
-    sys.path.insert(0, logic_path)
 
 # Import analysis modules
 try:
-    import colorpalette
-    import undertone
-    
-    from colorpalette import determine_season, get_season_description, generate_palette, get_season_palette, rgb_to_hsv, calculate_contrast
-    from undertone import analyze_undertone, get_undertone_recommendations, analyze_detailed_undertone
-    
+    from logic.colorpalette import (
+        determine_season, 
+        get_season_description, 
+        generate_palette, 
+        get_season_palette, 
+        rgb_to_hsv, 
+        calculate_contrast
+    )
+    from logic.undertone import (
+        analyze_undertone, 
+        get_undertone_recommendations, 
+        analyze_detailed_undertone
+    )
     print("✓ Successfully imported colorpalette and undertone modules")
+
 except ImportError as e:
     print(f"Warning: Could not import analysis modules: {e}")
-    print(f"Logic path: {logic_path}")
     print(f"Files in logic folder: {os.listdir('logic') if os.path.exists('logic') else 'logic folder not found'}")
-    
+
     # Provide fallback functions
     def determine_season(skin_rgb, hair_rgb, eye_rgb):
+        _ = (skin_rgb, hair_rgb, eye_rgb)
         return "Spring"
     
     def get_season_description(season):
+        _ = season
         return {"characteristics": "Season analysis module not loaded"}
     
     def analyze_undertone(skin_rgb):
+        _ = skin_rgb
         return "warm"
     
     def get_undertone_recommendations(undertone):
+        _ = undertone
         return {"jewelry": "Analysis module not loaded"}
     
     def generate_palette(base_color, palette_type):
+        _ = (base_color, palette_type)
         return ["#FF0000", "#00FF00", "#0000FF"]
     
     def get_season_palette(season, base_color=None):
+        _ = (season, base_color)
         return ["#FF0000", "#00FF00", "#0000FF"]
     
     def analyze_detailed_undertone(skin_rgb):
+        _ = skin_rgb
         return {"undertone": "warm", "warm_percentage": 50, "cool_percentage": 30, "neutral_percentage": 20}
     
     def rgb_to_hsv(rgb):
+        _ = rgb
         return (0, 0, 0)
     
     def calculate_contrast(color1, color2):
+        _ = (color1, color2)
         return 0.5
 
 app = Flask(__name__, static_folder='frontend', static_url_path='')
@@ -502,7 +511,7 @@ def load_users():
             for line in f:
                 line = line.strip()
                 if line and ':' in line:
-                    parts = line.split(':')
+                    parts = line.split(':', 2)
                     if len(parts) >= 3:
                         username = parts[0]
                         users[username] = {

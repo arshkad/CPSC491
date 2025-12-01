@@ -7,6 +7,15 @@
     <link rel="icon" type="/images/x-icon" href="color-wheel-guide-isolated-on-transparent-vector-48630416.webp">
     <title>ColorMe Login</title>
     <style>
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+            text-align: left;
+        }
+        
         .pending-results {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -163,13 +172,20 @@
             width: 100%;
         }
 
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
         .sec-pg-login-container {
             width: 100%;
         }
     </style>
 </head>
 <body class="center-login">
-    <div class="wrapper">
+
+    <div class="wrapper" style="background-color: bisque; height: auto; min-height: 45vh;">
         <br>
         <h1>ColorMe Login</h1>
 

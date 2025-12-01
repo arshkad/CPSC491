@@ -289,6 +289,15 @@
 Skin Undertone Analysis Module
 Determines whether someone has warm, cool, or neutral undertones
 """
+import colorsys
+
+def rgb_to_hsv(rgb):
+    """
+    Convert RGB tuple to HSV
+    """
+    r, g, b = [x / 255.0 for x in rgb]
+    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    return (h * 360, s * 100, v * 100)
 
 def analyze_undertone(skin_rgb):
     """
@@ -303,15 +312,8 @@ def analyze_undertone(skin_rgb):
     r, g, b = skin_rgb
     
     # Normalize values
-    total = r + g + b
-    if total == 0:
+    if r + g + b == 0:
         return "neutral"
-    
-    r_norm = r / total
-    g_norm = g / total
-    b_norm = b / total
-    
-    # Multiple analysis methods for more accuracy
     
     # Method 1: Blue component analysis (MOST IMPORTANT)
     # Cool skin has higher blue relative to the other channels
@@ -334,9 +336,6 @@ def analyze_undertone(skin_rgb):
     is_peach = (r > g) and (b / max(r, 1) < 0.80)  # Blue much less than red = peach
     
     # Method 5: Overall yellow vs blue
-    yellow_component = (r + g) / 2
-    yellow_vs_blue = yellow_component - b
-    
     print(f"  Undertone Debug:")
     print(f"    Red-Blue diff: {red_blue_diff}")
     print(f"    Green-Blue diff: {green_blue_diff}")
@@ -478,7 +477,7 @@ def analyze_detailed_undertone(skin_rgb):
             "cool_percentage": 33,
             "neutral_percentage": 34
         }
-    
+        
     # Warm score (more red and yellow/green)
     warm_indicator = (r + g - 2*b) / total
     

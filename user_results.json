@@ -76,5 +76,66 @@
       },
       "timestamp": "2025-12-01T09:49:56.762Z"
     }
+  ],
+  "test123": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(219, 135, 160)",
+        "hair": "rgb(34, 27, 38)",
+        "eyes": "rgb(92, 97, 124)"
+      },
+      "timestamp": "2025-12-01T10:20:41.236Z"
+    }
+  ],
+  "howdy": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(196, 99, 66)",
+        "hair": "rgb(14, 14, 12)",
+        "eyes": "rgb(14, 14, 12)"
+      },
+      "timestamp": "2025-12-01T10:40:15.489Z"
+    }
+  ],
+  "howdy1": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(231, 202, 191)",
+        "hair": "rgb(5, 5, 7)",
+        "eyes": "rgb(36, 16, 13)"
+      },
+      "timestamp": "2025-12-01T11:16:23.089Z"
+    },
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(216, 135, 112)",
+        "hair": "rgb(20, 20, 18)",
+        "eyes": "rgb(29, 16, 16)"
+      },
+      "timestamp": "2025-12-01T12:32:35.555Z"
+    },
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(193, 100, 117)",
+        "hair": "rgb(28, 24, 36)",
+        "eyes": "rgb(83, 83, 111)"
+      },
+      "timestamp": "2025-12-01T13:27:36.061Z"
+    }
   ]
 }
