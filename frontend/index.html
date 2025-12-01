@@ -18,6 +18,7 @@
 
     canvas { display: none; }
     
+    /* --- MAIN LAYOUT --- */
     .content {
       position: relative;
       z-index: 1;
@@ -26,53 +27,44 @@
       align-items: center;
       min-height: 100vh;
       flex-direction: column;
-      padding: 40px 20px; 
+      padding: 40px 20px;
       text-align: center;
-      gap: 25px; 
+      gap: 25px;
     }
 
     h1 {
-      margin-bottom: 10px; 
+      margin-bottom: 5px;
+      font-size: 3rem;
+      color: #333;
     }
 
+    /* --- AUTH BUTTONS --- */
+    #auth-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    /* --- UPLOAD BOX --- */
     #drop {
       background-color: #a1c4fd;
       padding: 40px;
       border-radius: 20px;
       text-align: center;
       width: 95%;
-      max-width: 900px; 
+      max-width: 900px;
       box-sizing: border-box;
       position: relative;
       margin: auto;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
 
-    .color-display {
-      display: none;
-      justify-content: center;
-      gap: 30px; 
-      margin-top: 25px;
-      flex-wrap: wrap;
-    }
-    
-    .color-box {
-      width: 70px; 
-      height: 70px;
-      border-radius: 50%;
-      border: 4px solid white;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-    }
-    
-    .color-box:hover {
-       transform: scale(1.1);
-    }
-    
+    /* --- BIG IMAGE PREVIEW --- */
     .upload-box img {
       max-width: 100%;
-      max-height: 600px; 
+      max-height: 600px;
       width: auto;
       height: auto;
       border-radius: 15px;
@@ -84,6 +76,27 @@
       margin-left: auto;
       margin-right: auto;
     }
+
+    /* --- COLOR CIRCLES --- */
+    .color-display {
+      display: none;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .color-box {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 4px solid white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    
+    .color-box:hover { transform: scale(1.1); }
     
     #instructions {
       text-align: center;
@@ -93,39 +106,13 @@
       font-size: 1.1rem;
     }
 
-    #color-preview {
-      position: fixed;
-      width: 100px; 
-      height: 100px;
-      border: 4px solid white;
-      border-radius: 50%;
-      pointer-events: none;
-      display: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      z-index: 1000;
-    }
-
-    #color-info {
-      position: fixed;
-      background: rgba(0, 0, 0, 0.9);
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-family: monospace;
-      pointer-events: none;
-      display: none;
-      z-index: 1001;
-      white-space: nowrap;
-    }
-
     /* --- BUTTON STYLES --- */
     .btn-gradient {
-      padding: 14px 35px;
+      padding: 12px 30px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
@@ -133,7 +120,7 @@
       box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
       text-decoration: none;
       display: inline-block;
-      margin: 10px;
+      margin: 0 10px;
     }
 
     .btn-gradient:hover:not(:disabled) {
@@ -159,6 +146,7 @@
       text-decoration: none;
       transition: all 0.3s ease;
       font-size: 15px;
+      margin: 0 5px;
     }
 
     .btn-outline:hover {
@@ -177,16 +165,39 @@
       cursor: pointer;
       transition: all 0.3s ease;
       font-size: 15px;
+      margin: 0 5px;
     }
 
     .btn-danger:hover {
       background: #ffcdd2;
       transform: translateY(-2px);
     }
+    
+    .btn-result-action {
+      padding: 10px 25px;
+      background: rgba(255, 255, 255, 0.2); /* Glass effect */
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      color: white;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+      margin: 5px;
+    }
+
+    .btn-result-action:hover {
+      background: white;
+      color: #764ba2; 
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
 
     #analyze-btn {
       margin-top: 30px;
-      font-size: 18px; 
+      font-size: 18px;
       display: none;
     }
 
@@ -195,6 +206,13 @@
       font-weight: bold;
       width: 100%;
       max-width: 700px;
+    }
+    
+    #color-preview {
+      position: fixed; width: 80px; height: 80px; border: 4px solid white; border-radius: 50%; pointer-events: none; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000;
+    }
+    #color-info {
+      position: fixed; background: rgba(0, 0, 0, 0.9); color: white; padding: 10px 15px; border-radius: 8px; font-size: 14px; font-family: monospace; pointer-events: none; display: none; z-index: 1001; white-space: nowrap;
     }
     
     @keyframes slideIn {
@@ -209,67 +227,64 @@
   <div class="content">
     <h1>ColorMe</h1>
 
-    <div id="loggedOutContent" style="display: none;">
-      <div class="login-button-container">
+    <div id="auth-section">
+      <div id="logged-out-nav" style="display: flex; justify-content: center; width: 100%;">
         <a href="/Login-page.html" class="btn-gradient">Login</a>
         <a href="/signup.html" class="btn-gradient">Sign Up</a>
       </div>
-    </div>
 
-    <div id="loggedInContent" style="display: none; flex-direction: column; align-items: center; width: 100%;">
-      
-      <div style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 15px; align-items: center;">
-        <h2 id="welcome-message" style="margin: 0; color: #333; font-size: 1.8rem;"></h2>
-        <div style="display: flex; gap: 15px;">
+      <div id="logged-in-nav" style="display: none; flex-direction: column; align-items: center; gap: 10px; width: 100%;">
+        <h3 id="welcome-message" style="margin: 0; color: #333; font-weight: normal;"></h3>
+        <div style="display: flex; justify-content: center; gap: 10px;">
             <a href="/Dashboard.html" class="btn-outline">Dashboard</a>
             <button onclick="logout()" class="btn-danger">Logout</button>
         </div>
       </div>
+    </div>
 
-      <div class="upload-box" id="drop">
-        <h2>Upload a Photo</h2>
-        <p style="color: #555; margin-top: 10px;">Choose a file or drag & drop an image here</p>
-        <input id="file" type="file" accept="image/*" style="margin-top: 20px;">
+    <div class="upload-box" id="drop">
+      <h2>Upload a Photo</h2>
+      <p style="color: #555; margin-top: 10px;">Choose a file or drag & drop an image here</p>
+      <input id="file" type="file" accept="image/*" style="margin-top: 20px;">
 
-        <div class="color-display" id="colors">
-          <div style="text-align: center;">
-            <p style="margin-bottom: 8px; font-weight: bold;">Skin</p>
-            <div id="skin-color" class="color-box" style="background-color: #eee;"></div>
-          </div>
-          <div style="text-align: center;">
-            <p style="margin-bottom: 8px; font-weight: bold;">Hair</p>
-            <div id="hair-color" class="color-box" style="background-color: #eee;"></div>
-          </div>
-          <div style="text-align: center;">
-            <p style="margin-bottom: 8px; font-weight: bold;">Eyes</p>
-            <div id="eye-color" class="color-box" style="background-color: #eee;"></div>
-          </div>
+      <div class="color-display" id="colors">
+        <div style="text-align: center;">
+          <p style="margin-bottom: 8px; font-weight: bold;">Skin</p>
+          <div id="skin-color" class="color-box" style="background-color: #eee;"></div>
         </div>
-
-        <p id="instructions"></p>
+        <div style="text-align: center;">
+          <p style="margin-bottom: 8px; font-weight: bold;">Hair</p>
+          <div id="hair-color" class="color-box" style="background-color: #eee;"></div>
+        </div>
+        <div style="text-align: center;">
+          <p style="margin-bottom: 8px; font-weight: bold;">Eyes</p>
+          <div id="eye-color" class="color-box" style="background-color: #eee;"></div>
+        </div>
       </div>
-      
-      <button id="analyze-btn" class="btn-gradient">Analyze My Colors</button>
-      <div id="analysis-result"></div>
-    </div> 
+
+      <p id="instructions"></p>
+    </div>
     
-    <canvas id="canvas"></canvas>
-    <div id="color-preview"></div>
-    <div id="color-info"></div>
-  </div>
+    <button id="analyze-btn" class="btn-gradient">Analyze My Colors</button>
+    <div id="analysis-result"></div>
+  </div> 
+  
+  <canvas id="canvas"></canvas>
+  <div id="color-preview"></div>
+  <div id="color-info"></div>
 
   <script>
-    // --- 1. AUTO-DETECT LOGIN STATUS ---
+    // --- HANDLE LOGIN DISPLAY ---
     document.addEventListener('DOMContentLoaded', () => {
       const loggedInUser = sessionStorage.getItem('loggedInUser');
       
       if (loggedInUser) {
-        document.getElementById('loggedInContent').style.display = 'flex';
-        document.getElementById('loggedOutContent').style.display = 'none';
+        document.getElementById('logged-in-nav').style.display = 'flex';
+        document.getElementById('logged-out-nav').style.display = 'none';
         document.getElementById('welcome-message').textContent = `Welcome, ${loggedInUser}!`;
       } else {
-        document.getElementById('loggedInContent').style.display = 'none';
-        document.getElementById('loggedOutContent').style.display = 'block';
+        document.getElementById('logged-in-nav').style.display = 'none';
+        document.getElementById('logged-out-nav').style.display = 'flex';
       }
     });
 
@@ -278,7 +293,7 @@
       window.location.reload();
     }
 
-    // --- 2. UPLOAD & COLOR PICKING LOGIC ---
+    // --- UPLOAD LOGIC ---
     const drop = document.getElementById('drop');
     const fileInput = document.getElementById('file');
     const canvas = document.getElementById('canvas');
@@ -313,21 +328,24 @@
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
 
-          const oldPreview = document.getElementById('preview');
-          if(oldPreview) oldPreview.remove();
+          const old = document.getElementById('preview');
+          if(old) old.remove();
 
           const previewImg = document.createElement('img');
           previewImg.src = ev.target.result;
           previewImg.id = 'preview';
           fileInput.insertAdjacentElement('afterend', previewImg);
 
-          imgElement = document.getElementById('preview');
-          imgElement.addEventListener('mousemove', updateCursorColor);
-          imgElement.addEventListener('mouseleave', hideColorPreview);
+          imgElement = previewImg;
+          imgElement.addEventListener('mousemove', updateCursor);
+          imgElement.addEventListener('mouseleave', () => {
+             document.getElementById('color-preview').style.display = 'none';
+             document.getElementById('color-info').style.display = 'none';
+          });
           imgElement.addEventListener('click', pickColor);
 
           colorsDiv.style.display = 'flex';
-          instructions.textContent = 'Click a circle below (Skin, Hair, or Eyes), then click that color on your photo.';
+          instructions.textContent = 'Click a circle below (Skin, Hair, Eyes), then click the color on your photo.';
         };
         img.src = ev.target.result;
       };
@@ -335,151 +353,145 @@
     }
 
     document.querySelectorAll('.color-box').forEach(box => {
-      box.addEventListener('click', () => {
-        currentPick = box.id.split('-')[0];
-        document.querySelectorAll('.color-box').forEach(b => b.style.border = '4px solid white');
-        box.style.border = '4px solid #667eea';
-        instructions.textContent = `Picking ${currentPick.toUpperCase()} color... click on the photo!`;
-      });
+        box.addEventListener('click', () => {
+            currentPick = box.id.split('-')[0];
+            document.querySelectorAll('.color-box').forEach(b => b.style.border = '4px solid white');
+            box.style.border = '4px solid #667eea';
+            instructions.textContent = `Picking ${currentPick.toUpperCase()}... click on the photo!`;
+        });
     });
-    
-    function updateCursorColor(e) {
-      if (!imgElement) return;
-      const rect = imgElement.getBoundingClientRect();
-      const scaleX = imgElement.naturalWidth / rect.width;
-      const scaleY = imgElement.naturalHeight / rect.height;
-      
-      const x = (e.clientX - rect.left) * scaleX;
-      const y = (e.clientY - rect.top) * scaleY;
-      
-      const pixel = ctx.getImageData(x, y, 1, 1).data;
-      const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
 
-      colorPreview.style.display = 'block';
-      colorPreview.style.backgroundColor = rgb;
-      colorPreview.style.left = (e.clientX + 20) + 'px';
-      colorPreview.style.top = (e.clientY - 40) + 'px';
-      
-      colorInfo.style.display = 'block';
-      colorInfo.textContent = rgb;
-      colorInfo.style.left = (e.clientX + 110) + 'px';
-      colorInfo.style.top = (e.clientY - 40) + 'px';
-      
-      imgElement.style.cursor = 'crosshair';
-    }
+    function updateCursor(e) {
+        if (!imgElement) return;
+        const rect = imgElement.getBoundingClientRect();
+        const scaleX = imgElement.naturalWidth / rect.width;
+        const scaleY = imgElement.naturalHeight / rect.height;
+        const pixel = ctx.getImageData((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY, 1, 1).data;
+        const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
 
-    function hideColorPreview() {
-      colorPreview.style.display = 'none';
-      colorInfo.style.display = 'none';
+        const preview = document.getElementById('color-preview');
+        preview.style.display = 'block';
+        preview.style.backgroundColor = rgb;
+        preview.style.left = (e.clientX + 20) + 'px';
+        preview.style.top = (e.clientY - 40) + 'px';
+        
+        const info = document.getElementById('color-info');
+        info.style.display = 'block';
+        info.textContent = rgb;
+        info.style.left = (e.clientX + 110) + 'px';
+        info.style.top = (e.clientY - 40) + 'px';
     }
 
     function pickColor(e) {
-      if(!currentPick) {
-        instructions.textContent = 'Please click a circle below first!';
-        return;
-      }
-      const rect = imgElement.getBoundingClientRect();
-      const scaleX = imgElement.naturalWidth / rect.width;
-      const scaleY = imgElement.naturalHeight / rect.height;
-      const x = (e.clientX - rect.left) * scaleX;
-      const y = (e.clientY - rect.top) * scaleY;
-      const pixel = ctx.getImageData(x, y, 1, 1).data;
-      const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
-      
-      const targetId = currentPick === 'eye' ? 'eye-color' : currentPick + '-color';
-      document.getElementById(targetId).style.backgroundColor = rgb;
-      
-      instructions.textContent = `${currentPick.toUpperCase()} color selected!`;
-      document.getElementById(targetId).style.border = '4px solid white';
-      currentPick = null;
-      
-      checkAllColorsPicked();
+        if(!currentPick) return;
+        const rect = imgElement.getBoundingClientRect();
+        const pixel = ctx.getImageData((e.clientX - rect.left) * (imgElement.naturalWidth / rect.width), (e.clientY - rect.top) * (imgElement.naturalHeight / rect.height), 1, 1).data;
+        const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+        
+        const id = currentPick === 'eye' ? 'eye-color' : currentPick + '-color';
+        document.getElementById(id).style.backgroundColor = rgb;
+        document.getElementById(id).style.border = '4px solid white';
+        currentPick = null;
+        
+        const s = document.getElementById('skin-color').style.backgroundColor;
+        const h = document.getElementById('hair-color').style.backgroundColor;
+        const e_col = document.getElementById('eye-color').style.backgroundColor;
+        if(s && h && e_col && s !== 'rgb(238, 238, 238)') {
+            document.getElementById('analyze-btn').style.display = 'inline-block';
+        }
     }
 
-    function checkAllColorsPicked() {
-      const s = document.getElementById('skin-color').style.backgroundColor;
-      const h = document.getElementById('hair-color').style.backgroundColor;
-      const e = document.getElementById('eye-color').style.backgroundColor;
-      
-      if (s && s !== 'rgb(238, 238, 238)' && h && h !== 'rgb(238, 238, 238)' && e && e !== 'rgb(238, 238, 238)') {
-        document.getElementById('analyze-btn').style.display = 'block';
-      }
-    }
-
-    // --- 3. SEND DATA TO SERVER ---
+    // --- ANALYZE & SAVE ---
     document.getElementById('analyze-btn').addEventListener('click', async () => {
-      const analyzeBtn = document.getElementById('analyze-btn');
-      const resultElement = document.getElementById('analysis-result');
-      analyzeBtn.textContent = 'Analyzing...';
-      analyzeBtn.disabled = true;
-      
-      const skinColor = document.getElementById('skin-color').style.backgroundColor;
-      const hairColor = document.getElementById('hair-color').style.backgroundColor;
-      const eyeColor = document.getElementById('eye-color').style.backgroundColor;
-      const colorData = { skin: skinColor, hair: hairColor, eyes: eyeColor };
-
-      try {
-        const response = await fetch('/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(colorData)
-        });
+        const btn = document.getElementById('analyze-btn');
+        btn.textContent = 'Analyzing...';
+        btn.disabled = true;
         
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const result = await response.json();
+        try {
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    skin: document.getElementById('skin-color').style.backgroundColor,
+                    hair: document.getElementById('hair-color').style.backgroundColor,
+                    eyes: document.getElementById('eye-color').style.backgroundColor
+                })
+            });
+            const result = await response.json();
+            
+            // Save locally for potential signup
+            sessionStorage.setItem('pendingResults', JSON.stringify({
+                season: result.season,
+                undertone: result.undertone,
+                message: result.message,
+                colors: { 
+                    skin: document.getElementById('skin-color').style.backgroundColor, 
+                    hair: document.getElementById('hair-color').style.backgroundColor, 
+                    eyes: document.getElementById('eye-color').style.backgroundColor 
+                },
+                timestamp: new Date().toISOString()
+            }));
+            
+            // Save to server if logged in
+            const user = sessionStorage.getItem('loggedInUser');
+            if (user) {
+                 await fetch('/user/save-result', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, result: result })
+                 });
+            }
 
-        sessionStorage.setItem('pendingResults', JSON.stringify({
-          season: result.season,
-          undertone: result.undertone,
-          message: result.message,
-          colors: { skin: skinColor, hair: hairColor, eyes: eyeColor },
-          timestamp: new Date().toISOString()
-        }));
+            // Show Results
+            document.getElementById('analysis-result').innerHTML = `
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(102, 126, 234, 0.25); animation: slideIn 0.5s ease-out;">
+                    <h2 style="margin: 0 0 20px 0; font-size: 28px;">✨ Your Result: ${result.season}</h2>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                      <p style="font-size: 18px; margin: 0;"><strong>🎨 Undertone:</strong> ${result.undertone}</p>
+                    </div>
+                    
+                    <p style="font-size: 16px; margin-top: 15px; line-height: 1.6;">${result.message}</p>
 
-        resultElement.innerHTML = `
-          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: slideIn 0.5s ease-out;">
-            <h2 style="margin: 0 0 20px 0; font-size: 28px;">✨ Your Color Analysis Results</h2>
-            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-              <p style="font-size: 18px; margin: 10px 0;"><strong>🌸 Season:</strong> ${result.season}</p>
-              <p style="font-size: 18px; margin: 10px 0;"><strong>🎨 Undertone:</strong> ${result.undertone}</p>
-            </div>
-            <p style="font-size: 16px; margin-top: 15px; line-height: 1.6;">${result.message}</p>
-            <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: center;">
-              <div style="text-align: center;">
-                <p style="margin-bottom: 5px; font-size: 12px; opacity: 0.8;">Skin</p>
-                <div style="width: 50px; height: 50px; background-color: ${skinColor}; border: 3px solid white; border-radius: 50%; margin: 0 auto;"></div>
-              </div>
-              <div style="text-align: center;">
-                <p style="margin-bottom: 5px; font-size: 12px; opacity: 0.8;">Hair</p>
-                <div style="width: 50px; height: 50px; background-color: ${hairColor}; border: 3px solid white; border-radius: 50%; margin: 0 auto;"></div>
-              </div>
-              <div style="text-align: center;">
-                <p style="margin-bottom: 5px; font-size: 12px; opacity: 0.8;">Eyes</p>
-                <div style="width: 50px; height: 50px; background-color: ${eyeColor}; border: 3px solid white; border-radius: 50%; margin: 0 auto;"></div>
-              </div>
-            </div>
-          </div>
-        `;
-        
-        analyzeBtn.textContent = 'Analyze My Colors';
-        analyzeBtn.disabled = false;
-        
-      } catch (error) {
-        console.error('Error:', error);
-        resultElement.innerHTML = `
-          <div style="background-color: #ffebee; color: #333; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #c62828;">
-            <p><strong>❌ Error:</strong> Unable to analyze colors.</p>
-            <p style="opacity: 0.8;">${error.message}</p>
-          </div>
-        `;
-        analyzeBtn.textContent = 'Analyze My Colors';
-        analyzeBtn.disabled = false;
-      }
+                    <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: center;">
+                      <div style="text-align: center;">
+                        <p style="margin-bottom: 5px; font-size: 12px; opacity: 0.8;">Skin</p>
+                        <div style="width: 50px; height: 50px; background-color: ${document.getElementById('skin-color').style.backgroundColor}; border: 3px solid white; border-radius: 50%; margin: 0 auto;"></div>
+                      </div>
+                      <div style="text-align: center;">
+                        <p style="margin-bottom: 5px; font-size: 12px; opacity: 0.8;">Hair</p>
+                        <div style="width: 50px; height: 50px; background-color: ${document.getElementById('hair-color').style.backgroundColor}; border: 3px solid white; border-radius: 50%; margin: 0 auto;"></div>
+                      </div>
+                      <div style="text-align: center;">
+                        <p style="margin-bottom: 5px; font-size: 12px; opacity: 0.8;">Eyes</p>
+                        <div style="width: 50px; height: 50px; background-color: ${document.getElementById('eye-color').style.backgroundColor}; border: 3px solid white; border-radius: 50%; margin: 0 auto;"></div>
+                      </div>
+                    </div>
+                    
+                    <div id="save-actions" style="margin-top: 30px; display: ${user ? 'none' : 'flex'}; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                        <button onclick="window.location.href='/signup.html'" class="btn-result-action">
+                            💾 Sign Up to Save Results
+                        </button>
+                        <button onclick="window.location.href='/Login-page.html?save=true'" class="btn-result-action">
+                            🔑 Log In to Save
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('analysis-result').innerHTML = `
+                <div style="background-color: #ffebee; color: #333; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #c62828;">
+                    <p><strong>❌ Error:</strong> Unable to analyze colors.</p>
+                    <p style="opacity: 0.8;">${error.message}</p>
+                </div>
+            `;
+        } finally {
+            btn.textContent = 'Analyze My Colors';
+            btn.disabled = false;
+        }
     });
-
-    function saveAndSignUp() {
-      window.location.href = '/signup.html';
-    }
   </script>
 </body>
 </html>

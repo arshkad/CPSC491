@@ -136,6 +136,136 @@
         "eyes": "rgb(83, 83, 111)"
       },
       "timestamp": "2025-12-01T13:27:36.061Z"
+    },
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(200, 102, 66)",
+        "hair": "rgb(12, 14, 11)",
+        "eyes": "rgb(14, 13, 11)"
+      },
+      "timestamp": "2025-12-01T20:14:03.780Z"
+    },
+    {
+      "detailed_undertone": {
+        "cool_percentage": 14.3,
+        "neutral_percentage": 0,
+        "rgb": [
+          172,
+          84,
+          100
+        ],
+        "undertone": "warm",
+        "warm_percentage": 85.7
+      },
+      "eye_rgb": [
+        36,
+        32,
+        44
+      ],
+      "hair_rgb": [
+        37,
+        33,
+        45
+      ],
+      "message": "Your color season is Winter with cool undertones!",
+      "recommended_palette": [
+        "#ac5464",
+        "#54ac9c"
+      ],
+      "season": "Winter",
+      "season_info": {
+        "avoid_colors": [
+          "Orange",
+          "Gold",
+          "Warm browns"
+        ],
+        "best_colors": [
+          "True red",
+          "Royal blue",
+          "Pure white",
+          "Black",
+          "Hot pink",
+          "Emerald green"
+        ],
+        "characteristics": "Cool undertone with high contrast coloring",
+        "metals": "Silver jewelry suits you best"
+      },
+      "skin_rgb": [
+        172,
+        84,
+        100
+      ],
+      "success": true,
+      "undertone": "cool",
+      "undertone_info": {
+        "best_colors": [
+          "Jewel tones (sapphire, emerald, ruby)",
+          "Cool blues and purples",
+          "Pink and berry shades",
+          "Pure white and black"
+        ],
+        "jewelry": "Silver and platinum look best on you",
+        "makeup_tips": [
+          "Use cool-toned foundations with pink undertones",
+          "Try pink or berry blushes",
+          "Cool-toned purples and silvers for eyeshadow",
+          "Cool pink or berry lipsticks"
+        ]
+      },
+      "timestamp": "2025-12-01T12:14:40.155563"
+    },
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(172, 84, 100)",
+        "hair": "rgb(37, 33, 45)",
+        "eyes": "rgb(36, 32, 44)"
+      },
+      "timestamp": "2025-12-01T20:14:40.149Z"
+    }
+  ],
+  "hello12": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(217, 134, 105)",
+        "hair": "rgb(15, 14, 12)",
+        "eyes": "rgb(21, 8, 8)"
+      },
+      "timestamp": "2025-12-01T13:32:04.930Z"
+    }
+  ],
+  "howdy123": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(203, 88, 48)",
+        "hair": "rgb(28, 22, 19)",
+        "eyes": "rgb(14, 14, 12)"
+      },
+      "timestamp": "2025-12-01T20:37:17.135Z"
+    }
+  ],
+  "howdy1234": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(212, 114, 85)",
+        "hair": "rgb(36, 23, 25)",
+        "eyes": "rgb(30, 21, 19)"
+      },
+      "timestamp": "2025-12-01T20:48:21.871Z"
     }
   ]
 }
