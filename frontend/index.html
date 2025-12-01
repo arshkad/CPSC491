@@ -140,6 +140,42 @@
       max-width: 600px;
     }
 
+    .save-btn {
+      background: #6fa8ff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .save-btn:hover {
+      background: #5a96e8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(111, 168, 255, 0.4);
+    }
+
+    .login-btn {
+      background: #764ba2;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+
+    .login-btn:hover {
+      background: #5f3a87;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+    }
+
     @keyframes slideIn {
       from {
         opacity: 0;
@@ -342,6 +378,19 @@
         
         const result = await response.json();
 
+        // ⭐ STORE RESULTS IN SESSION STORAGE FOR SIGNUP/LOGIN
+        sessionStorage.setItem('pendingResults', JSON.stringify({
+          season: result.season,
+          undertone: result.undertone,
+          message: result.message,
+          colors: {
+            skin: skinColor,
+            hair: hairColor,
+            eyes: eyeColor
+          },
+          timestamp: new Date().toISOString()
+        }));
+
         resultElement.innerHTML = `
           <div style="
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -374,20 +423,18 @@
               </div>
             </div>
 
-            <!-- ⭐ ADDED SIGN UP + LOGIN BUTTONS -->
-            <div style="margin-top: 25px; display: flex; justify-content: center; gap: 20px;">
-              <a href="/signup.html" 
-                 style="background: #6fa8ff; padding: 12px 20px; border-radius: 8px; color: white; text-decoration: none; font-weight: 600;">
-                 Sign Up
-              </a>
-              <a href="/Login page.html" 
-                 style="background: #764ba2; padding: 12px 20px; border-radius: 8px; color: white; text-decoration: none; font-weight: 600;">
-                 Log In
+            <!-- ⭐ UPDATED SAVE BUTTONS -->
+            <div style="margin-top: 25px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+              <button onclick="saveAndSignUp()" class="save-btn">
+                💾 Sign Up to Save Results
+              </button>
+              <a href="/Login page.html?save=true" class="login-btn">
+                🔑 Log In to Save
               </a>
             </div>
 
             <p style="margin-top: 15px; font-size: 14px; opacity: 0.9;">
-              Sign up to save your results or log in if you already have an account!
+              💡 Create a free account to save your color analysis and access it anytime!
             </p>
 
           </div>
@@ -417,6 +464,14 @@
         analyzeBtn.disabled = false;
       }
     });
+
+    // ⭐ FUNCTION TO REDIRECT TO SIGNUP WITH SAVED RESULTS
+    function saveAndSignUp() {
+      // Results are already stored in sessionStorage
+      window.location.href = '/signup.html';
+    }
   </script>
 </body>
 </html>
+
+<!-- CLAUDE TEST -->

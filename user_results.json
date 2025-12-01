@@ -1,0 +1,54 @@
+{
+  "example": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(228, 204, 192)",
+        "hair": "rgb(4, 4, 4)",
+        "eyes": "rgb(52, 45, 50)"
+      },
+      "timestamp": "2025-12-01T04:38:51.017Z"
+    }
+  ],
+  "exampletest": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(228, 203, 191)",
+        "hair": "rgb(4, 4, 4)",
+        "eyes": "rgb(35, 19, 25)"
+      },
+      "timestamp": "2025-12-01T04:42:56.991Z"
+    }
+  ],
+  "qwertqwer": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(231, 203, 195)",
+        "hair": "rgb(6, 5, 7)",
+        "eyes": "rgb(61, 43, 39)"
+      },
+      "timestamp": "2025-12-01T04:46:19.530Z"
+    }
+  ],
+  "testtttt": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(226, 201, 189)",
+        "hair": "rgb(7, 6, 11)",
+        "eyes": "rgb(61, 43, 39)"
+      },
+      "timestamp": "2025-12-01T04:47:55.162Z"
+    }
+  ]
+}

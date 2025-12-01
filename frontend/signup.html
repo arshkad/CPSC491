@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -36,6 +36,277 @@
         <p>Already have an account? <a href="login page.html">Login</a></p>
         <p><a href="index.html">← Back to Home</a></p>
     </div>
+
+</body>
+</html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorMe Signup</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="color-wheel-guide-isolated-on-transparent-vector-48630416.webp">
+    <style>
+        /* Additional styles for pending results display */
+        .pending-results {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .pending-results h4 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+
+        .pending-results p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        button[type="submit"]:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="center-login">
+
+    <div class="wrapper">
+        <h1>Create your ColorMe Account</h1>
+
+        <!-- Display pending results if they exist -->
+        <div id="pending-results-display" class="pending-results">
+            <h4>✨ Your Analysis Results Will Be Saved:</h4>
+            <p id="pending-season"></p>
+            <p id="pending-undertone"></p>
+        </div>
+
+        <!-- Success message -->
+        <div id="success-message" class="success-message"></div>
+
+        <form id="signupForm">
+            <div>
+                <label for="username">Username: </label>
+                <input type="text" id="username" name="username" placeholder="Choose a username" required minlength="3">
+                <div id="username-error" class="error-message">Username must be at least 3 characters</div>
+            </div>
+            <br>
+            <div>
+                <label for="email">Email: </label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                <div id="email-error" class="error-message">Please enter a valid email</div>
+            </div>
+            <br>
+            <div>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required minlength="6">
+                <div id="password-error" class="error-message">Password must be at least 6 characters</div>
+            </div>
+            <br>
+            <div>
+                <button type="submit" id="signup-btn">Sign Up</button>
+            </div>
+        </form>
+        <br>
+        <p>Already have an account? <a href="Login page.html">Login</a></p>
+        <p><a href="index.html">← Back to Home</a></p>
+    </div>
+
+    <script>
+        const BACKEND_URL = "http://127.0.0.1:5001";
+        
+
+        // Check for pending results on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const pendingResults = sessionStorage.getItem('pendingResults');
+            
+            if (pendingResults) {
+                try {
+                    const results = JSON.parse(pendingResults);
+                    displayPendingResults(results);
+                } catch (error) {
+                    console.error('Error parsing pending results:', error);
+                }
+            }
+        });
+
+        function displayPendingResults(results) {
+            const displayDiv = document.getElementById('pending-results-display');
+            const seasonP = document.getElementById('pending-season');
+            const undertoneP = document.getElementById('pending-undertone');
+
+            seasonP.textContent = `🌸 Season: ${results.season}`;
+            undertoneP.textContent = `🎨 Undertone: ${results.undertone}`;
+
+            displayDiv.style.display = 'block';
+        }
+
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+
+            // Username validation
+            const username = document.getElementById('username').value;
+            if (username.length < 3) {
+                document.getElementById('username-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('username-error').style.display = 'none';
+            }
+
+            // Email validation
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('email-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('email-error').style.display = 'none';
+            }
+
+            // Password validation
+            const password = document.getElementById('password').value;
+            if (password.length < 6) {
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('password-error').style.display = 'none';
+            }
+
+            return isValid;
+        }
+
+        // Handle form submission
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validate form
+            if (!validateForm()) {
+                return;
+            }
+
+            const signupBtn = document.getElementById('signup-btn');
+
+            // Disable button
+            signupBtn.disabled = true;
+            signupBtn.textContent = 'Creating Account...';
+
+            // Get form data
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Get pending results from sessionStorage
+            const pendingResults = sessionStorage.getItem('pendingResults');
+            let analysisResults = null;
+            
+            if (pendingResults) {
+                try {
+                    analysisResults = JSON.parse(pendingResults);
+                } catch (error) {
+                    console.error('Error parsing results:', error);
+                }
+            }
+
+            // Prepare signup data
+            const signupData = {
+                username: username,
+                email: email,
+                password: password,
+                analysis_results: analysisResults
+            };
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(signupData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store auth token and user info
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userId', data.user_id);
+                    localStorage.setItem('username', data.username);
+
+                    // Clear pending results
+                    sessionStorage.removeItem('pendingResults');
+
+                    // Show success message
+                    const successMsg = document.getElementById('success-message');
+                    successMsg.textContent = '✅ Account created successfully! Redirecting to dashboard...';
+                    successMsg.style.display = 'block';
+
+                    // Redirect to dashboard after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/Dashboard.html';
+                    }, 2000);
+
+                } else {
+                    // Show error
+                    alert('Signup failed: ' + (data.error || data.message || 'Unknown error'));
+                    
+                    // Re-enable button
+                    signupBtn.disabled = false;
+                    signupBtn.textContent = 'Sign Up';
+                }
+
+            } catch (error) {
+                console.error('Error during signup:', error);
+                alert('Network error. Please check if the backend server is running at ' + BACKEND_URL);
+
+                // Re-enable button
+                signupBtn.disabled = false;
+                signupBtn.textContent = 'Sign Up';
+            }
+        });
+
+        // Real-time validation
+        document.getElementById('username').addEventListener('input', () => {
+            if (document.getElementById('username').value.length >= 3) {
+                document.getElementById('username-error').style.display = 'none';
+            }
+        });
+
+        document.getElementById('email').addEventListener('input', () => {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(document.getElementById('email').value)) {
+                document.getElementById('email-error').style.display = 'none';
+            }
+        });
+
+        document.getElementById('password').addEventListener('input', () => {
+            if (document.getElementById('password').value.length >= 6) {
+                document.getElementById('password-error').style.display = 'none';
+            }
+        });
+    </script>
 
 </body>
 </html>

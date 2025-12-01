@@ -1,120 +1,4 @@
-# from flask import Flask, request, jsonify, render_template
-# from logic.colorpalette import generate_palette
-# from logic.undertone import extract_dominant_skin_colors
-# from logic.web import extract_dominant_colors
-# import cv2
-# import numpy as np
-# from PIL import Image
-# import io
 
-# app = Flask(__name__)
-
-# @app.route('/')
-# def home():
-#     return render_template("index.html")
-
-# @app.route('/api/palette', methods=['POST'])
-# def palette():
-#     data = request.json
-#     base = data.get("base_color")
-#     ptype = data.get("palette_type", "complementary")
-    
-#     result = generate_palette(base, ptype)
-#     return jsonify({"palette": result})
-
-# @app.route('/api/extract_colors', methods=['POST'])
-# def extract_colors_route():
-#     file = request.files["image"]
-#     img = np.array(Image.open(io.BytesIO(file.read())))
-#     img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-#     colors = extract_dominant_colors(img_bgr)
-#     return jsonify({"dominant_colors": colors})
-
-# @app.route('/api/skin_tone', methods=['POST'])
-# def skin_tone():
-#     file = request.files["image"]
-#     img = np.array(Image.open(io.BytesIO(file.read())))
-#     img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    
-#     dominant = extract_dominant_skin_colors(img_bgr)
-#     return jsonify({"skin_colors": dominant.tolist()})
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
-
-# from flask import Flask
-# from flask_cors import CORS
-
-# from colorpalette import generate_palette
-# from undertone import extract_dominant_skin_colors
-# from web import extract_dominant_colors
-
-# app = Flask(__name__)
-# CORS(app)   # very important 🔥 for frontend → backend requests
-
-# ---- test
-
-# from flask import Flask, request, jsonify
-# from flask_cors import CORS
-# from web import extract_dominant_colors
-# from undertone import extract_dominant_skin_colors
-# from colorpalette import generate_palette
-# import numpy as np
-# import cv2
-# from PIL import Image
-# import io
-
-# app = Flask(__name__)
-# CORS(app)  # allow frontend to call backend
-
-# @app.route("/health")
-# def health():
-#     return jsonify({"status": "Backend running"})
-
-# # Upload + extract 3 dominant colors
-# @app.route("/extract_colors", methods=["POST"])
-# def extract_colors_route():
-#     if "image" not in request.files:
-#         return jsonify({"error": "No image uploaded"}), 400
-
-#     image_file = request.files["image"]
-#     img_arr = np.array(Image.open(io.BytesIO(image_file.read())))
-#     img_cv = cv2.cvtColor(img_arr, cv2.COLOR_RGB2BGR)
-
-#     colors = extract_dominant_colors(img_cv, num_colors=3)
-#     return jsonify({"dominant_colors": colors})
-
-# # Extract only SKIN tones
-# @app.route("/extract_skin", methods=["POST"])
-# def extract_skin_route():
-#     if "image" not in request.files:
-#         return jsonify({"error": "No image uploaded"}), 400
-
-#     image_file = request.files["image"]
-#     img_arr = np.array(Image.open(io.BytesIO(image_file.read())))
-#     img_cv = cv2.cvtColor(img_arr, cv2.COLOR_RGB2BGR)
-
-#     skin_colors = extract_dominant_skin_colors(img_cv)
-#     return jsonify({
-#         "skin_colors": skin_colors.tolist()
-#     })
-
-# # Generate palette
-# @app.route("/palette", methods=["POST"])
-# def palette_route():
-#     data = request.json
-#     base_color = data.get("base_color")
-#     palette_type = data.get("palette_type", "complementary")
-
-#     palette = generate_palette(base_color, palette_type)
-#     return jsonify({"palette": palette})
-
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
-
-
-# --------------- TEST
 # """
 # ColorMe - Main Application Entry Point
 # This is the main Flask application that serves the frontend and handles all API endpoints
@@ -126,15 +10,23 @@
 # import sys
 
 # # Add the logic folder to the Python path
-# sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'logic'))
+# logic_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logic')
+# if logic_path not in sys.path:
+#     sys.path.insert(0, logic_path)
 
 # # Import analysis modules
 # try:
-#     from colorpalette import determine_season, get_season_description, generate_palette, get_season_palette
+#     import colorpalette
+#     import undertone
+    
+#     from colorpalette import determine_season, get_season_description, generate_palette, get_season_palette, rgb_to_hsv, calculate_contrast
 #     from undertone import analyze_undertone, get_undertone_recommendations, analyze_detailed_undertone
+    
+#     print("✓ Successfully imported colorpalette and undertone modules")
 # except ImportError as e:
 #     print(f"Warning: Could not import analysis modules: {e}")
-#     print("Make sure colorpalette.py and undertone.py are in the 'logic' folder")
+#     print(f"Logic path: {logic_path}")
+#     print(f"Files in logic folder: {os.listdir('logic') if os.path.exists('logic') else 'logic folder not found'}")
     
 #     # Provide fallback functions
 #     def determine_season(skin_rgb, hair_rgb, eye_rgb):
@@ -157,6 +49,12 @@
     
 #     def analyze_detailed_undertone(skin_rgb):
 #         return {"undertone": "warm", "warm_percentage": 50, "cool_percentage": 30, "neutral_percentage": 20}
+    
+#     def rgb_to_hsv(rgb):
+#         return (0, 0, 0)
+    
+#     def calculate_contrast(color1, color2):
+#         return 0.5
 
 # app = Flask(__name__, static_folder='frontend', static_url_path='')
 # CORS(app)  # Enable CORS for all routes
@@ -226,293 +124,45 @@
 #         hair_rgb = parse_rgb(hair_color)
 #         eye_rgb = parse_rgb(eye_color)
         
-#         print(f"Analyzing colors - Skin: {skin_rgb}, Hair: {hair_rgb}, Eyes: {eye_rgb}")
-        
-#         # Perform analysis
-#         season = determine_season(skin_rgb, hair_rgb, eye_rgb)
-#         undertone = analyze_undertone(skin_rgb)
-#         season_info = get_season_description(season)
-#         undertone_info = get_undertone_recommendations(undertone)
-#         detailed_undertone = analyze_detailed_undertone(skin_rgb)
-        
-#         # Generate recommended color palette
-#         palette = get_season_palette(season, skin_rgb)
-        
-#         # Return comprehensive results
-#         return jsonify({
-#             'success': True,
-#             'season': season,
-#             'undertone': undertone,
-#             'skin_rgb': skin_rgb,
-#             'hair_rgb': hair_rgb,
-#             'eye_rgb': eye_rgb,
-#             'message': f'Your color season is {season} with {undertone} undertones!',
-#             'season_info': {
-#                 'characteristics': season_info.get('characteristics', ''),
-#                 'best_colors': season_info.get('best_colors', []),
-#                 'avoid_colors': season_info.get('avoid_colors', []),
-#                 'metals': season_info.get('metals', ''),
-#             },
-#             'undertone_info': {
-#                 'jewelry': undertone_info.get('jewelry', ''),
-#                 'best_colors': undertone_info.get('best_colors', []),
-#                 'makeup_tips': undertone_info.get('makeup_tips', []),
-#             },
-#             'detailed_undertone': detailed_undertone,
-#             'recommended_palette': palette
-#         })
-        
-#     except ValueError as e:
-#         print(f"ValueError in analyze_colors: {str(e)}")
-#         return jsonify({'error': f'Invalid color format: {str(e)}'}), 400
-#     except Exception as e:
-#         print(f"Error in analyze_colors: {str(e)}")
-#         return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
-
-# @app.route('/palette', methods=['POST'])
-# def palette_route():
-#     """
-#     Generate color palette from a base color
-#     Supports different palette types
-#     """
-#     try:
-#         data = request.get_json()
-        
-#         base_color = data.get('base_color', [255, 0, 0])  # Default = red
-#         palette_type = data.get('palette_type', 'complementary')
-        
-#         # Generate palette
-#         palette = generate_palette(base_color, palette_type)
-        
-#         return jsonify({
-#             "success": True,
-#             "base_color": base_color,
-#             "palette_type": palette_type,
-#             "generated_palette": palette
-#         })
-        
-#     except Exception as e:
-#         print(f"Error in palette_route: {str(e)}")
-#         return jsonify({"error": str(e)}), 400
-
-# @app.route('/login', methods=['POST'])
-# def login():
-#     """Login endpoint - TODO: Implement proper authentication"""
-#     try:
-#         data = request.get_json()
-#         username = data.get('username')
-#         password = data.get('password')
-        
-#         # TODO: Add your authentication logic here
-#         # For now, just a simple check
-#         if username and password:
-#             return jsonify({
-#                 'success': True,
-#                 'message': 'Login successful',
-#                 'username': username
-#             })
-#         else:
-#             return jsonify({
-#                 'success': False,
-#                 'message': 'Invalid credentials'
-#             }), 401
-            
-#     except Exception as e:
-#         print(f"Error in login: {str(e)}")
-#         return jsonify({'error': str(e)}), 500
-
-# @app.route('/signup', methods=['POST'])
-# def signup():
-#     """Signup endpoint - TODO: Implement user registration"""
-#     try:
-#         data = request.get_json()
-#         username = data.get('username')
-#         password = data.get('password')
-#         email = data.get('email')
-        
-#         # TODO: Add your user registration logic here
-#         # - Validate input
-#         # - Hash password
-#         # - Store in database
-        
-#         if username and password and email:
-#             return jsonify({
-#                 'success': True,
-#                 'message': 'Account created successfully',
-#                 'username': username
-#             })
-#         else:
-#             return jsonify({
-#                 'success': False,
-#                 'message': 'Missing required fields'
-#             }), 400
-            
-#     except Exception as e:
-#         print(f"Error in signup: {str(e)}")
-#         return jsonify({'error': str(e)}), 500
-
-# # Error handlers
-# @app.errorhandler(404)
-# def not_found(e):
-#     """Handle 404 errors"""
-#     return jsonify({'error': 'Resource not found'}), 404
-
-# @app.errorhandler(500)
-# def internal_error(e):
-#     """Handle 500 errors"""
-#     return jsonify({'error': 'Internal server error'}), 500
-
-# if __name__ == '__main__':
-#     # Check if frontend folder exists
-#     if not os.path.exists('frontend'):
-#         print("Warning: 'frontend' folder not found!")
-#         print("Please make sure your HTML files are in a 'frontend' folder")
-    
-#     # Check if logic folder exists
-#     if not os.path.exists('logic'):
-#         print("Warning: 'logic' folder not found!")
-#         print("Please make sure colorpalette.py and undertone.py are in a 'logic' folder")
-    
-#     print("\n" + "="*50)
-#     print("ColorMe Application Starting...")
-#     print("="*50)
-#     print("Frontend: http://localhost:5000")
-#     print("API Endpoints:")
-#     print("  - GET  /health")
-#     print("  - POST /analyze")
-#     print("  - POST /palette")
-#     print("  - POST /login")
-#     print("  - POST /signup")
-#     print("="*50 + "\n")
-    
-#     # Run the Flask app
-#     app.run(debug=True, port=5001, host='0.0.0.0')
-
-
-
-# -------- RECENT TEST
-# """
-# ColorMe - Main Application Entry Point
-# This is the main Flask application that serves the frontend and handles all API endpoints
-# """
-
-# from flask import Flask, request, jsonify, send_from_directory
-# from flask_cors import CORS
-# import os
-# import sys
-
-# # Add the logic folder to the Python path
-# sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'logic'))
-
-# # Import analysis modules
-# try:
-#     from colorpalette import determine_season, get_season_description, generate_palette, get_season_palette
-#     from undertone import analyze_undertone, get_undertone_recommendations, analyze_detailed_undertone
-# except ImportError as e:
-#     print(f"Warning: Could not import analysis modules: {e}")
-#     print("Make sure colorpalette.py and undertone.py are in the 'logic' folder")
-    
-#     # Provide fallback functions
-#     def determine_season(skin_rgb, hair_rgb, eye_rgb):
-#         return "Spring"
-    
-#     def get_season_description(season):
-#         return {"characteristics": "Season analysis module not loaded"}
-    
-#     def analyze_undertone(skin_rgb):
-#         return "warm"
-    
-#     def get_undertone_recommendations(undertone):
-#         return {"jewelry": "Analysis module not loaded"}
-    
-#     def generate_palette(base_color, palette_type):
-#         return ["#FF0000", "#00FF00", "#0000FF"]
-    
-#     def get_season_palette(season, base_color=None):
-#         return ["#FF0000", "#00FF00", "#0000FF"]
-    
-#     def analyze_detailed_undertone(skin_rgb):
-#         return {"undertone": "warm", "warm_percentage": 50, "cool_percentage": 30, "neutral_percentage": 20}
-
-# app = Flask(__name__, static_folder='frontend', static_url_path='')
-# CORS(app)  # Enable CORS for all routes
-
-# def parse_rgb(rgb_string):
-#     """Convert 'rgb(255, 255, 255)' to (255, 255, 255)"""
-#     try:
-#         rgb_string = rgb_string.replace('rgb(', '').replace(')', '').strip()
-#         r, g, b = map(int, [x.strip() for x in rgb_string.split(',')])
-#         return (r, g, b)
-#     except Exception as e:
-#         raise ValueError(f"Invalid RGB format: {rgb_string}")
-
-# # ============ FRONTEND ROUTES ============
-
-# @app.route('/')
-# def index():
-#     """Serve the main index.html page"""
-#     return send_from_directory('frontend', 'index.html')
-
-# @app.route('/<path:path>')
-# def serve_static(path):
-#     """Serve static files from the frontend folder"""
-#     try:
-#         return send_from_directory('frontend', path)
-#     except:
-#         # If file not found, return index.html for client-side routing
-#         return send_from_directory('frontend', 'index.html')
-
-# # ============ API ROUTES ============
-
-# @app.route('/health', methods=['GET'])
-# def health():
-#     """Health check endpoint"""
-#     return jsonify({
-#         "status": "Backend running",
-#         "version": "1.0.0",
-#         "modules": {
-#             "colorpalette": "loaded",
-#             "undertone": "loaded"
-#         }
-#     })
-
-# @app.route('/analyze', methods=['POST'])
-# def analyze_colors():
-#     """
-#     Main color analysis endpoint
-#     Receives skin, hair, and eye colors from the frontend
-#     Returns seasonal analysis and undertone
-#     """
-#     try:
-#         data = request.get_json()
-        
-#         if not data:
-#             return jsonify({'error': 'No data provided'}), 400
-        
-#         # Get RGB colors from frontend
-#         skin_color = data.get('skin')
-#         hair_color = data.get('hair')
-#         eye_color = data.get('eyes')
-        
-#         if not all([skin_color, hair_color, eye_color]):
-#             return jsonify({'error': 'Missing color data. Please select all three colors.'}), 400
-        
-#         # Convert RGB strings to tuples
-#         skin_rgb = parse_rgb(skin_color)
-#         hair_rgb = parse_rgb(hair_color)
-#         eye_rgb = parse_rgb(eye_color)
+#         # Calculate some debug values
+#         skin_hsv = rgb_to_hsv(skin_rgb)
+#         hair_hsv = rgb_to_hsv(hair_rgb)
+#         contrast_skin_hair = calculate_contrast(skin_rgb, hair_rgb)
         
 #         print("\n" + "="*60)
 #         print("🎨 COLOR ANALYSIS DEBUG")
 #         print("="*60)
 #         print(f"Input Colors:")
-#         print(f"  Skin RGB:  {skin_rgb}")
-#         print(f"  Hair RGB:  {hair_rgb}")
+#         print(f"  Skin RGB:  {skin_rgb} (Brightness: {skin_hsv[2]:.2f})")
+#         print(f"  Hair RGB:  {hair_rgb} (Brightness: {hair_hsv[2]:.2f})")
 #         print(f"  Eye RGB:   {eye_rgb}")
+#         print(f"\nAnalysis Factors:")
+#         print(f"  Skin-Hair Contrast: {contrast_skin_hair:.3f}")
+#         print(f"  Warm Score: {((skin_rgb[0] + skin_rgb[1])/2 - skin_rgb[2])/255:.3f}")
+#         print(f"  Hair Darkness: {'Very Dark' if hair_hsv[2] < 0.25 else 'Dark' if hair_hsv[2] < 0.35 else 'Medium' if hair_hsv[2] < 0.55 else 'Light'}")
         
 #         # Perform analysis
 #         season = determine_season(skin_rgb, hair_rgb, eye_rgb)
 #         undertone = analyze_undertone(skin_rgb)
+        
+#         # CRITICAL: Season ALWAYS determines undertone in 12-season system
+#         # Winter/Summer = Cool undertones ALWAYS
+#         # Spring/Autumn = Warm undertones ALWAYS
+        
+#         if "Winter" in season or "Summer" in season:
+#             # Cool seasons MUST have cool undertones
+#             original_undertone = undertone
+#             undertone = "cool"
+#             if original_undertone != "cool":
+#                 print(f"  → Undertone FORCED to 'cool' for {season} (was {original_undertone})")
+        
+#         elif "Spring" in season or "Autumn" in season:
+#             # Warm seasons MUST have warm undertones
+#             original_undertone = undertone
+#             undertone = "warm"
+#             if original_undertone != "warm":
+#                 print(f"  → Undertone FORCED to 'warm' for {season} (was {original_undertone})")
+        
 #         season_info = get_season_description(season)
 #         undertone_info = get_undertone_recommendations(undertone)
 #         detailed_undertone = analyze_detailed_undertone(skin_rgb)
@@ -643,6 +293,87 @@
 #         print(f"Error in signup: {str(e)}")
 #         return jsonify({'error': str(e)}), 500
 
+# # ============ SETTINGS ROUTES ============
+
+# @app.route('/get-user-info', methods=['POST'])
+# def get_user_info():
+#     try:
+#         data = request.get_json()
+#         username = data.get('username')
+
+#         if not os.path.exists('users.txt'):
+#             return jsonify({'error': 'Database not found'}), 404
+        
+#         with open('users.txt', 'r') as f:
+#             lines = f.readlines()
+
+#         for line in lines:
+#             parts = line.strip().split(':')
+#             # Checks if it's the correct user
+#             if len(parts) >= 2 and parts[0] == username:
+#                 return jsonify({
+#                     'username': parts[0],
+#                     'email': parts[1]
+#                 })
+#         return jsonify({'error': 'User not found'}), 404
+#     except Exception as e:
+#         print(f"Error getting user info: {e}")
+#         return jsonify({'error': str(e)}), 500
+    
+# @app.route('/update-password', methods=['POST'])
+# def update_password():
+#     try:
+#         data = request.get_json()
+#         username = data.get('username')
+#         old_password = data.get('oldPassword')
+#         new_password = data.get('newPassword')
+
+#         if not os.parth.exists('users.txt'):
+#             return jsonify({'success': False, 'message': 'Database error'}), 500
+        
+#         with open('users.txt', 'r') as f:
+#             lines = f.readlines()
+        
+#         new_lines = []
+#         user_found = False
+#         password_correct = False
+
+#         for line in lines:
+#             line = line.strip()
+#             if not line: continue
+
+#             parts = line.split(':')
+
+#             if parts[0] == username:
+#                 user_found = True
+#                 # Checks if old password will match
+#                 if len(parts) >= 3 and parts[2] == old_password:
+#                     password_correct = True
+#                     # Makes a new line with the new password
+#                     new_line = f"{parts[0]}:{parts[1]}:{new_password}\n"
+#                     new_lines.append(new_line)
+#                 else:
+#                     # Old password is wrong
+#                     new_lines.append(line + '\n')
+#             else:
+#                 # Not the user
+#                 new_lines.append(line + '\n')
+        
+#         if not user_found:
+#             return jsonify({'success': False, 'message': 'User not found'})
+        
+#         if not password_correct:
+#             return jsonify({'success': False, 'message': 'Old password is incorrect'})
+        
+#         with open('users.txt', 'w') as f:
+#             f.writelines(new_lines)
+
+#         return jsonify({'success': True, 'message': 'Password updated successfully'})
+    
+#     except Exception as e:
+#         print(f"Error updating password: {e}")
+#         return jsonify({'success': False, 'message': f'Server error: {str(e)}'}), 500
+
 # # Error handlers
 # @app.errorhandler(404)
 # def not_found(e):
@@ -678,7 +409,8 @@
 #     print("="*50 + "\n")
     
 #     # Run the Flask app
-#     app.run(debug=True, port=5001, host='0.0.0.0')
+#     app.run(debug=True, use_reloader=False, port=5001, host='0.0.0.0')
+
 """
 ColorMe - Main Application Entry Point
 This is the main Flask application that serves the frontend and handles all API endpoints
@@ -686,8 +418,13 @@ This is the main Flask application that serves the frontend and handles all API 
 
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import sys
+import json
+import jwt
+import datetime
+from functools import wraps
 
 # Add the logic folder to the Python path
 logic_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logic')
@@ -739,6 +476,15 @@ except ImportError as e:
 app = Flask(__name__, static_folder='frontend', static_url_path='')
 CORS(app)  # Enable CORS for all routes
 
+# Secret key for JWT tokens
+app.config['SECRET_KEY'] = 'your-secret-key-change-this-in-production'
+
+# File paths for simple file-based storage
+USERS_FILE = 'users.txt'
+RESULTS_FILE = 'user_results.json'
+
+# ============ UTILITY FUNCTIONS ============
+
 def parse_rgb(rgb_string):
     """Convert 'rgb(255, 255, 255)' to (255, 255, 255)"""
     try:
@@ -747,6 +493,64 @@ def parse_rgb(rgb_string):
         return (r, g, b)
     except Exception as e:
         raise ValueError(f"Invalid RGB format: {rgb_string}")
+
+def load_users():
+    """Load users from file"""
+    users = {}
+    if os.path.exists(USERS_FILE):
+        with open(USERS_FILE, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and ':' in line:
+                    parts = line.split(':')
+                    if len(parts) >= 3:
+                        username = parts[0]
+                        users[username] = {
+                            'username': username,
+                            'email': parts[1],
+                            'password': parts[2]
+                        }
+    return users
+
+def save_user(username, email, password):
+    """Save a new user to file"""
+    hashed_password = generate_password_hash(password)
+    with open(USERS_FILE, 'a') as f:
+        f.write(f"{username}:{email}:{hashed_password}\n")
+
+def load_results():
+    """Load all user results from JSON file"""
+    if os.path.exists(RESULTS_FILE):
+        try:
+            with open(RESULTS_FILE, 'r') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            return {}
+    return {}
+
+def save_results(results_data):
+    """Save all results to JSON file"""
+    with open(RESULTS_FILE, 'w') as f:
+        json.dump(results_data, f, indent=2)
+
+def save_user_result(username, analysis_result):
+    """Save a user's analysis result"""
+    all_results = load_results()
+    
+    if username not in all_results:
+        all_results[username] = []
+    
+    # Add timestamp if not present
+    if 'timestamp' not in analysis_result:
+        analysis_result['timestamp'] = datetime.datetime.now().isoformat()
+    
+    all_results[username].append(analysis_result)
+    save_results(all_results)
+
+def get_user_results(username):
+    """Get all results for a specific user"""
+    all_results = load_results()
+    return all_results.get(username, [])
 
 # ============ FRONTEND ROUTES ============
 
@@ -830,14 +634,12 @@ def analyze_colors():
         # Spring/Autumn = Warm undertones ALWAYS
         
         if "Winter" in season or "Summer" in season:
-            # Cool seasons MUST have cool undertones
             original_undertone = undertone
             undertone = "cool"
             if original_undertone != "cool":
                 print(f"  → Undertone FORCED to 'cool' for {season} (was {original_undertone})")
         
         elif "Spring" in season or "Autumn" in season:
-            # Warm seasons MUST have warm undertones
             original_undertone = undertone
             undertone = "warm"
             if original_undertone != "warm":
@@ -917,60 +719,187 @@ def palette_route():
         print(f"Error in palette_route: {str(e)}")
         return jsonify({"error": str(e)}), 400
 
+# ============ AUTHENTICATION ROUTES ============
+
 @app.route('/login', methods=['POST'])
 def login():
-    """Login endpoint - TODO: Implement proper authentication"""
+    """Login endpoint with result saving support"""
     try:
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
+        analysis_results = data.get('analysis_results')
         
-        # TODO: Add your authentication logic here
-        # For now, just a simple check
-        if username and password:
-            return jsonify({
-                'success': True,
-                'message': 'Login successful',
-                'username': username
-            })
-        else:
+        if not username or not password:
             return jsonify({
                 'success': False,
-                'message': 'Invalid credentials'
+                'message': 'Missing username or password'
+            }), 400
+        
+        # Load users
+        users = load_users()
+        
+        # Check if user exists
+        if username not in users:
+            return jsonify({
+                'success': False,
+                'message': 'User not found'
             }), 401
+        
+        # Verify password
+        user = users[username]
+        if not check_password_hash(user['password'], password):
+            return jsonify({
+                'success': False,
+                'message': 'Incorrect password'
+            }), 401
+        
+        # Save analysis results if provided
+        if analysis_results:
+            try:
+                save_user_result(username, analysis_results)
+                print(f"✓ Saved analysis results for user: {username}")
+            except Exception as e:
+                print(f"Warning: Could not save analysis results: {e}")
+        
+        # Generate JWT token
+        token = jwt.encode({
+            'username': username,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
+        }, app.config['SECRET_KEY'], algorithm='HS256')
+        
+        return jsonify({
+            'success': True,
+            'message': 'Login successful',
+            'token': token,
+            'username': username,
+            'user_id': username
+        })
             
     except Exception as e:
         print(f"Error in login: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    """Signup endpoint - TODO: Implement user registration"""
+    """Signup endpoint with result saving support"""
     try:
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
         email = data.get('email')
+        analysis_results = data.get('analysis_results')
         
-        # TODO: Add your user registration logic here
-        # - Validate input
-        # - Hash password
-        # - Store in database
-        
-        if username and password and email:
-            return jsonify({
-                'success': True,
-                'message': 'Account created successfully',
-                'username': username
-            })
-        else:
+        # Validate input
+        if not username or not password or not email:
             return jsonify({
                 'success': False,
-                'message': 'Missing required fields'
+                'error': 'Missing required fields'
             }), 400
+        
+        # Check if user already exists
+        users = load_users()
+        if username in users:
+            return jsonify({
+                'success': False,
+                'error': 'Username already exists'
+            }), 400
+        
+        # Check if email already exists
+        for user in users.values():
+            if user['email'] == email:
+                return jsonify({
+                    'success': False,
+                    'error': 'Email already registered'
+                }), 400
+        
+        # Save new user
+        save_user(username, email, password)
+        print(f"✓ Created new user: {username}")
+        
+        # Save analysis results if provided
+        if analysis_results:
+            try:
+                save_user_result(username, analysis_results)
+                print(f"✓ Saved initial analysis results for user: {username}")
+            except Exception as e:
+                print(f"Warning: Could not save analysis results: {e}")
+        
+        # Generate JWT token
+        token = jwt.encode({
+            'username': username,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
+        }, app.config['SECRET_KEY'], algorithm='HS256')
+        
+        return jsonify({
+            'success': True,
+            'message': 'Account created successfully',
+            'token': token,
+            'username': username,
+            'user_id': username
+        })
             
     except Exception as e:
         print(f"Error in signup: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+# ============ USER RESULTS ROUTES ============
+
+@app.route('/user/results', methods=['POST'])
+def get_user_results_route():
+    """Get all saved results for a user"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        
+        if not username:
+            return jsonify({'error': 'Username required'}), 400
+        
+        # Get user's results
+        results = get_user_results(username)
+        
+        return jsonify({
+            'success': True,
+            'username': username,
+            'results': results,
+            'count': len(results)
+        })
+        
+    except Exception as e:
+        print(f"Error in get_user_results_route: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/user/save-result', methods=['POST'])
+def save_result_route():
+    """Save a new analysis result for a logged-in user"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        result = data.get('result')
+        
+        if not username or not result:
+            return jsonify({'error': 'Username and result required'}), 400
+        
+        # Save the result
+        save_user_result(username, result)
+        
+        return jsonify({
+            'success': True,
+            'message': 'Result saved successfully'
+        })
+        
+    except Exception as e:
+        print(f"Error in save_result_route: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 # ============ SETTINGS ROUTES ============
@@ -981,20 +910,15 @@ def get_user_info():
         data = request.get_json()
         username = data.get('username')
 
-        if not os.path.exists('users.txt'):
-            return jsonify({'error': 'Database not found'}), 404
+        users = load_users()
         
-        with open('users.txt', 'r') as f:
-            lines = f.readlines()
-
-        for line in lines:
-            parts = line.strip().split(':')
-            # Checks if it's the correct user
-            if len(parts) >= 2 and parts[0] == username:
-                return jsonify({
-                    'username': parts[0],
-                    'email': parts[1]
-                })
+        if username in users:
+            user = users[username]
+            return jsonify({
+                'username': user['username'],
+                'email': user['email']
+            })
+        
         return jsonify({'error': 'User not found'}), 404
     except Exception as e:
         print(f"Error getting user info: {e}")
@@ -1008,10 +932,10 @@ def update_password():
         old_password = data.get('oldPassword')
         new_password = data.get('newPassword')
 
-        if not os.parth.exists('users.txt'):
+        if not os.path.exists(USERS_FILE):
             return jsonify({'success': False, 'message': 'Database error'}), 500
         
-        with open('users.txt', 'r') as f:
+        with open(USERS_FILE, 'r') as f:
             lines = f.readlines()
         
         new_lines = []
@@ -1026,11 +950,12 @@ def update_password():
 
             if parts[0] == username:
                 user_found = True
-                # Checks if old password will match
-                if len(parts) >= 3 and parts[2] == old_password:
+                # Check if old password matches
+                if len(parts) >= 3 and check_password_hash(parts[2], old_password):
                     password_correct = True
-                    # Makes a new line with the new password
-                    new_line = f"{parts[0]}:{parts[1]}:{new_password}\n"
+                    # Create new line with new password
+                    new_password_hash = generate_password_hash(new_password)
+                    new_line = f"{parts[0]}:{parts[1]}:{new_password_hash}\n"
                     new_lines.append(new_line)
                 else:
                     # Old password is wrong
@@ -1045,7 +970,7 @@ def update_password():
         if not password_correct:
             return jsonify({'success': False, 'message': 'Old password is incorrect'})
         
-        with open('users.txt', 'w') as f:
+        with open(USERS_FILE, 'w') as f:
             f.writelines(new_lines)
 
         return jsonify({'success': True, 'message': 'Password updated successfully'})
@@ -1076,16 +1001,32 @@ if __name__ == '__main__':
         print("Warning: 'logic' folder not found!")
         print("Please make sure colorpalette.py and undertone.py are in a 'logic' folder")
     
+    # Create users file if it doesn't exist
+    if not os.path.exists(USERS_FILE):
+        with open(USERS_FILE, 'w') as f:
+            pass
+        print(f"✓ Created {USERS_FILE}")
+    
+    # Create results file if it doesn't exist
+    if not os.path.exists(RESULTS_FILE):
+        with open(RESULTS_FILE, 'w') as f:
+            json.dump({}, f)
+        print(f"✓ Created {RESULTS_FILE}")
+    
     print("\n" + "="*50)
     print("ColorMe Application Starting...")
     print("="*50)
-    print("Frontend: http://localhost:5000")
+    print("Frontend: http://localhost:5001")
     print("API Endpoints:")
     print("  - GET  /health")
     print("  - POST /analyze")
     print("  - POST /palette")
     print("  - POST /login")
     print("  - POST /signup")
+    print("  - POST /user/results")
+    print("  - POST /user/save-result")
+    print("  - POST /get-user-info")
+    print("  - POST /update-password")
     print("="*50 + "\n")
     
     # Run the Flask app
