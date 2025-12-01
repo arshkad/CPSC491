@@ -674,9 +674,9 @@ def analyze_colors():
             'success': True,
             'season': season,
             'undertone': undertone,
-            'skin_rgb': skin_rgb,
-            'hair_rgb': hair_rgb,
-            'eye_rgb': eye_rgb,
+            'skin_rgb': f"rgb({skin_rgb[0]}, {skin_rgb[1]}, {skin_rgb[2]})",
+            'hair_rgb': f"rgb({hair_rgb[0]}, {hair_rgb[1]}, {hair_rgb[2]})",
+            'eye_rgb':  f"rgb({eye_rgb[0]}, {eye_rgb[1]}, {eye_rgb[2]})",
             'message': f'Your color season is {season} with {undertone} undertones!',
             'season_info': {
                 'characteristics': season_info.get('characteristics', ''),
@@ -955,7 +955,7 @@ def update_password():
             line = line.strip()
             if not line: continue
 
-            parts = line.split(':')
+            parts = line.split(':', 2)
 
             if parts[0] == username:
                 user_found = True

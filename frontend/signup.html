@@ -328,6 +328,8 @@
                     localStorage.setItem('userId', data.user_id);
                     localStorage.setItem('username', data.username);
 
+                    sessionStorage.setItem('loggedInUser', data.username);
+                    
                     // Clear pending results
                     sessionStorage.removeItem('pendingResults');
 

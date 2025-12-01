@@ -577,6 +577,223 @@
         "eyes": "rgb(144, 144, 170)"
       },
       "timestamp": "2025-12-01T21:13:21.620Z"
+    },
+    {
+      "detailed_undertone": {
+        "cool_percentage": 35,
+        "neutral_percentage": 25,
+        "rgb": [
+          231,
+          202,
+          191
+        ],
+        "undertone": "neutral",
+        "warm_percentage": 40
+      },
+      "eye_rgb": [
+        36,
+        16,
+        13
+      ],
+      "hair_rgb": [
+        5,
+        5,
+        7
+      ],
+      "message": "Your color season is Winter with cool undertones!",
+      "recommended_palette": [
+        "#e7cabf",
+        "#bfdce7"
+      ],
+      "season": "Winter",
+      "season_info": {
+        "avoid_colors": [
+          "Orange",
+          "Gold",
+          "Warm browns"
+        ],
+        "best_colors": [
+          "True red",
+          "Royal blue",
+          "Pure white",
+          "Black",
+          "Hot pink",
+          "Emerald green"
+        ],
+        "characteristics": "Cool undertone with high contrast coloring",
+        "metals": "Silver jewelry suits you best"
+      },
+      "skin_rgb": [
+        231,
+        202,
+        191
+      ],
+      "success": true,
+      "undertone": "cool",
+      "undertone_info": {
+        "best_colors": [
+          "Jewel tones (sapphire, emerald, ruby)",
+          "Cool blues and purples",
+          "Pink and berry shades",
+          "Pure white and black"
+        ],
+        "jewelry": "Silver and platinum look best on you",
+        "makeup_tips": [
+          "Use cool-toned foundations with pink undertones",
+          "Try pink or berry blushes",
+          "Cool-toned purples and silvers for eyeshadow",
+          "Cool pink or berry lipsticks"
+        ]
+      },
+      "timestamp": "2025-12-01T14:11:47.519247"
+    },
+    {
+      "detailed_undertone": {
+        "cool_percentage": 35,
+        "neutral_percentage": 25,
+        "rgb": [
+          231,
+          202,
+          191
+        ],
+        "undertone": "neutral",
+        "warm_percentage": 40
+      },
+      "eye_rgb": [
+        36,
+        16,
+        13
+      ],
+      "hair_rgb": [
+        5,
+        5,
+        7
+      ],
+      "message": "Your color season is Winter with cool undertones!",
+      "recommended_palette": [
+        "#e7cabf",
+        "#bfdce7"
+      ],
+      "season": "Winter",
+      "season_info": {
+        "avoid_colors": [
+          "Orange",
+          "Gold",
+          "Warm browns"
+        ],
+        "best_colors": [
+          "True red",
+          "Royal blue",
+          "Pure white",
+          "Black",
+          "Hot pink",
+          "Emerald green"
+        ],
+        "characteristics": "Cool undertone with high contrast coloring",
+        "metals": "Silver jewelry suits you best"
+      },
+      "skin_rgb": [
+        231,
+        202,
+        191
+      ],
+      "success": true,
+      "undertone": "cool",
+      "undertone_info": {
+        "best_colors": [
+          "Jewel tones (sapphire, emerald, ruby)",
+          "Cool blues and purples",
+          "Pink and berry shades",
+          "Pure white and black"
+        ],
+        "jewelry": "Silver and platinum look best on you",
+        "makeup_tips": [
+          "Use cool-toned foundations with pink undertones",
+          "Try pink or berry blushes",
+          "Cool-toned purples and silvers for eyeshadow",
+          "Cool pink or berry lipsticks"
+        ]
+      },
+      "timestamp": "2025-12-01T14:17:16.788171"
+    },
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(231, 202, 191)",
+        "hair": "rgb(5, 5, 7)",
+        "eyes": "rgb(36, 16, 13)"
+      },
+      "timestamp": "2025-12-01T22:30:30.163Z"
+    },
+    {
+      "detailed_undertone": {
+        "cool_percentage": 35,
+        "neutral_percentage": 25,
+        "rgb": [
+          232,
+          218,
+          216
+        ],
+        "undertone": "neutral",
+        "warm_percentage": 40
+      },
+      "eye_rgb": "rgb(186, 196, 217)",
+      "hair_rgb": "rgb(94, 164, 217)",
+      "message": "Your color season is Summer with cool undertones!",
+      "recommended_palette": [
+        "#e8dad8",
+        "#d8e6e8"
+      ],
+      "season": "Summer",
+      "season_info": {
+        "avoid_colors": [
+          "Orange",
+          "Bright yellow",
+          "True black"
+        ],
+        "best_colors": [
+          "Soft pink",
+          "Lavender",
+          "Powder blue",
+          "Rose",
+          "Soft white",
+          "Light gray"
+        ],
+        "characteristics": "Cool undertone with soft, muted coloring",
+        "metals": "Silver jewelry suits you best"
+      },
+      "skin_rgb": "rgb(232, 218, 216)",
+      "success": true,
+      "undertone": "cool",
+      "undertone_info": {
+        "best_colors": [
+          "Jewel tones (sapphire, emerald, ruby)",
+          "Cool blues and purples",
+          "Pink and berry shades",
+          "Pure white and black"
+        ],
+        "jewelry": "Silver and platinum look best on you",
+        "makeup_tips": [
+          "Use cool-toned foundations with pink undertones",
+          "Try pink or berry blushes",
+          "Cool-toned purples and silvers for eyeshadow",
+          "Cool pink or berry lipsticks"
+        ]
+      },
+      "timestamp": "2025-12-01T14:31:04.812488"
+    },
+    {
+      "season": "Summer",
+      "undertone": "cool",
+      "message": "Your color season is Summer with cool undertones!",
+      "colors": {
+        "skin": "rgb(232, 218, 216)",
+        "hair": "rgb(94, 164, 217)",
+        "eyes": "rgb(186, 196, 217)"
+      },
+      "timestamp": "2025-12-01T22:31:04.808Z"
     }
   ]
 }

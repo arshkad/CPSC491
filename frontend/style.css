@@ -116,7 +116,8 @@ body.center-login {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  height: 580px;
+  min-height: 580px;
+  height: auto;
   width: 420px;
   background-color: bisque;
   color:black;
