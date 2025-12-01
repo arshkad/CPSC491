@@ -795,5 +795,75 @@
       },
       "timestamp": "2025-12-01T22:31:04.808Z"
     }
+  ],
+  "hero": [
+    {
+      "season": "Winter",
+      "undertone": "cool",
+      "message": "Your color season is Winter with cool undertones!",
+      "colors": {
+        "skin": "rgb(231, 202, 191)",
+        "hair": "rgb(5, 5, 7)",
+        "eyes": "rgb(36, 16, 13)"
+      },
+      "timestamp": "2025-12-01T23:01:32.155Z"
+    },
+    {
+      "detailed_undertone": {
+        "cool_percentage": 18.1,
+        "neutral_percentage": 0,
+        "rgb": [
+          201,
+          107,
+          128
+        ],
+        "undertone": "warm",
+        "warm_percentage": 81.9
+      },
+      "eye_rgb": "rgb(85, 85, 113)",
+      "hair_rgb": "rgb(22, 20, 32)",
+      "message": "Your color season is Winter with cool undertones!",
+      "recommended_palette": [
+        "#c96b80",
+        "#6bc9b4"
+      ],
+      "season": "Winter",
+      "season_info": {
+        "avoid_colors": [
+          "Orange",
+          "Gold",
+          "Warm browns"
+        ],
+        "best_colors": [
+          "True red",
+          "Royal blue",
+          "Pure white",
+          "Black",
+          "Hot pink",
+          "Emerald green"
+        ],
+        "characteristics": "Cool undertone with high contrast coloring",
+        "metals": "Silver jewelry suits you best"
+      },
+      "skin_rgb": "rgb(201, 107, 128)",
+      "success": true,
+      "undertone": "cool",
+      "undertone_info": {
+        "best_colors": [
+          "Jewel tones (sapphire, emerald, ruby)",
+          "Cool blues and purples",
+          "Pink and berry shades",
+          "Pure white and black"
+        ],
+        "jewelry": "Silver and platinum look best on you",
+        "makeup_tips": [
+          "Use cool-toned foundations with pink undertones",
+          "Try pink or berry blushes",
+          "Cool-toned purples and silvers for eyeshadow",
+          "Cool pink or berry lipsticks"
+        ]
+      },
+      "timestamp": "2025-12-01T15:02:08.912227"
+    }
   ]
 }
