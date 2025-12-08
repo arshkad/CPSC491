@@ -910,6 +910,33 @@ def save_result_route():
     except Exception as e:
         print(f"Error in save_result_route: {str(e)}")
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/user/delete-result', methods=['POST'])
+def delete_result_route():
+    """Deletes analysis result for the user"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        timestamp = data.get('timestamp')
+
+        if not username or not timestamp:
+            return jsonify({'error': 'Username and timestamp required'}), 400
+        
+        all_results = load_results()
+
+        if username in all_results:
+            original_count = len(all_results[username])
+            all_results[username] = [r for r in all_results[username] if r.get('timestamp') != timestamp]
+
+            if len(all_results[username]) < original_count:
+                save_results(all_results)
+                return jsonify({'success': True, 'message': 'Result deleted successfully'})
+            else:
+                return jsonify({'error': 'User not found'}), 404
+        
+    except Exception as e:
+        print(f"Error in delete_result_route: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 # ============ SETTINGS ROUTES ============
 

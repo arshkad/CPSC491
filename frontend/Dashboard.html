@@ -190,7 +190,7 @@
         border: none;
     }
 
-    .btn-export { background-color: #eef2ff; color: #667eea; }
+    .btn-export {background-color: #eef2ff; color: #667eea; }
     .btn-export:hover { background-color: #dce4ff; }
 
     .btn-view { background-color: #f0fdf4; color: #22c55e; }
@@ -206,6 +206,96 @@
         background: white;
         border-radius: 15px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 20px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      position: relative;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .close:hover, .close:focus {
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .color-swatch-row { 
+      display: flex; 
+      gap: 15px; 
+      justify-content: center; 
+      margin: 20px 0; 
+    }
+
+    .color-swatch { text-align: center; }
+
+    .color-circle { 
+      width: 50px; 
+      height: 50px; 
+      border-radius: 50%; 
+      border: 3px solid #eee; 
+      margin: 0 auto 5px; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+    }
+
+    .palette-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); 
+      gap: 10px; margin-top: 15px; 
+    }
+
+    .palette-item { 
+      width: 100%; 
+      padding-bottom: 100%; 
+      border-radius: 8px; 
+      border: 1px solid rgba(0,0,0,0.1); 
+    }
+    
+    .modal-section { 
+      margin-bottom: 25px; 
+      border-bottom: 1px solid #eee; 
+      padding-bottom: 15px; 
+    }
+
+    .modal-section:last-child { border-bottom: none; }
+
+    .modal-section h3 { 
+      color: #667eea; 
+      margin-bottom: 10px; 
+      font-size: 1.2rem; 
     }
   </style>
 </head>
@@ -250,7 +340,6 @@
     </div>
 
     <div class="action-container">
-        
         <a href="index.html" class="action-box">
             <div class="icon-circle" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                 <i class="bx bx-plus"></i>
@@ -258,7 +347,6 @@
             <h3>Start New Report</h3>
             <p>Upload a new photo to analyze your seasonal colors.</p>
         </a>
-
         <div class="action-box" onclick="scrollToResults()">
             <div class="icon-circle" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                 <i class="bx bx-history"></i>
@@ -266,18 +354,26 @@
             <h3>View Saved Reports</h3>
             <p>Look back at your previous color analysis history.</p>
         </div>
-
     </div>
 
     <div id="loading" style="display: none; text-align: center; margin: 20px;">
         <p>Loading your results...</p>
     </div>
-
     <div id="results-container" class="results-container"></div>
   </main>
 
+  <div id="detailsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title" style="text-align: center; margin-bottom: 20px">Analysis Details</h2>
+      <div id="modal-body">
+          </div>
+    </div>
+  </div>
+
   <script>
     const BACKEND_URL = "http://127.0.0.1:5001";
+    let currentResults = [];
 
     // Sidebar functionality
     const resizeBtn = document.querySelector('[data-resize-btn]');
@@ -334,6 +430,7 @@
         loading.style.display = 'none';
 
         if (response.ok && data.results && data.results.length > 0) {
+          currentResults = data.results.reverse();
           displayResults(data.results);
         } else {
           displayNoResults();
@@ -351,8 +448,9 @@
       container.innerHTML = `<h2 style="text-align: center; color: #333; margin-bottom: 30px;">Color Analysis History</h2>`;
 
       // Show newest first
-      results.reverse().forEach((result, index) => {
+      results.forEach((result, index) => {
         const date = new Date(result.timestamp).toLocaleDateString();
+        const time = new Date(result.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         const card = document.createElement('div');
         card.className = 'result-card';
         
@@ -385,13 +483,13 @@
           ${colorHtml}
           
           <div class="card-actions">
-            <button class="action-btn btn-export" onclick="alert('Export feature coming soon!')">
+            <button class="action-btn btn-export" onclick="exportResult(${index})">
                 <i class='bx bx-export'></i> Export
             </button>
-            <button class="action-btn btn-view" onclick="alert('View details feature coming soon!')">
+            <button class="action-btn btn-view" onclick="openDetailsModal(${index})">
                 <i class='bx bx-show'></i> View Details
             </button>
-            <button class="action-btn btn-delete" onclick="alert('Delete feature coming soon!')">
+            <button class="action-btn btn-delete" onclick="deleteResult('${result.timestamp}')">
                 <i class='bx bx-trash'></i> Delete
             </button>
           </div>
@@ -409,6 +507,133 @@
         </div>
       `;
     }
+
+    function exportResult(index) {
+      const result = currentResults[index];
+      if(!result) return;
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(result, null, 2));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", `ColorMe_${result.season}_${new Date(result.timestamp).toISOString().split('T')[0]}.json`);
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    }
+
+    async function deleteResult(timestamp) {
+      if(!confirm("Are you sure you want to delete this report? This cannot be undone.")) return;
+
+      const username = localStorage.getItem('username') || sessionStorage.getItem('loggedInUser');
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/user/delete-result`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: username, timestamp: timestamp })
+        });
+
+        if(response.ok) {
+          loadUserResults();
+        } else {
+          alert("Failed to delete result. Please try again.");
+        }
+      } catch (error) {
+        console.error("Delete failed", error);
+        alert("An error occurred while deleting.");
+      }
+    }
+
+    function openDetailsModal(index) {
+      const result = currentResults[index];
+      if (!result) return;
+
+      const modal = document.getElementById('detailsModal');
+      const body = document.getElementById('modal-body');
+      const title = document.getElementById('modal-title');
+
+      title.textContent = `${result.season} Season Analysis`;
+
+      const characteristics = result.season_info?.characteristics || "No description available.";
+      const jewelry = result.undertone_info?.jewelry || "No jewelry tips available.";
+      const metals = result.season_info?.metals || "N/A";
+
+      const bestColors = result.season_info?.best_colors || [];
+
+      let skinColor = result.colors?.skin || (result.skin_rgb ? `rgb(${result.skin_rgb})`  : '#eee');
+      let hairColor = result.colors?.hair || (result.hair_rgb ? `rgb(${result.hair_rgb})`  : '#eee');
+      let eyeColor = result.colors?.eyes || (result.eye_rgb ? `rgb(${result.eye_rgb})`  : '#eee');
+
+      // Creates HTML that's recommended for the user's palette
+      let paletteHtml = '';
+      if(result.recommended_palette && Array.isArray(result.recommended_palette)) {
+        paletteHtml = `<div class="palette-grid">
+          ${result.recommended_palette.map(color =>
+            `<div class="palette-item" style="background-color: ${color};" title="${color}"></div>`
+          ).join('')}
+        </div>`;
+      } else {
+          paletteHtml = '<p style="color:#888;">No recommended palette generated for this report.</p>';
+      }
+
+      const bestColorsHtml = bestColors.length > 0
+          ? `<p>${bestColors.join(', ')}</p>`
+          : '<p>No specific colors listed.</p>';
+
+      body.innerHTML = `
+          <div class="modal-section">
+              <h3>Your Features</h3>
+              <div class="color-swatch-row">
+                  <div class="color-swatch">
+                      <div class="color-circle" style="background-color: ${skinColor}"></div>
+                      <small>Skin</small>
+                  </div>
+                  <div class="color-swatch">
+                      <div class="color-circle" style="background-color: ${hairColor}"></div>
+                      <small>Hair</small>
+                  </div>
+                  <div class="color-swatch">
+                      <div class="color-circle" style="background-color: ${eyeColor}"></div>
+                      <small>Eyes</small>
+                  </div>
+              </div>
+          </div>
+
+          <div class="modal-section">
+              <h3>Seasonal Characteristics</h3>
+              <p>${characteristics}</p>
+          </div>
+
+          <div class="modal-section">
+              <h3>Best Colors to Wear</h3>
+              ${bestColorsHtml}
+          </div>
+
+          <div class="modal-section">
+            <h3>Style & Jewelry</h3>
+            <p><strong>Jewelry:</strong> ${jewelry}</p>
+            <p><strong>Metals:</strong> ${metals}</p>
+          </div>
+
+          <div class="modal-section">
+            <h3>Recommended Color Palette</h3>
+            ${paletteHtml}
+          </div>
+      `;
+
+      modal.style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById('detailsModal').style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById('detailsModal');
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
   </script>
 </body>
 </html>
