@@ -21,29 +21,29 @@ Python 3.8 or higher
 pip (Python package installer)
 
 # Run on Visual Studio Code
+1. Start server
 
-# Start server
-python (or python3) app.py
+2. python (or python3) app.py
 Expected Output:
-==================================================
 ColorMe Application Starting...
-==================================================
 Frontend: http://localhost:5001
  * Running on http://127.0.0.1:5001
+
 3. Open in Browser
 Navigate to: http://localhost:5001
-4. Test the Application
 
-Upload a clear, front-facing photo
-Click Skin, Hair, Eyes circles, then click colors in your photo
-Click "Analyze My Colors"
-View your season, undertone, and color recommendations
-Sign up to save results and access dashboard
+4. Test the Application
+- Upload a clear, front-facing photo
+- Click Skin, Hair, Eyes circles, then click colors in your photo
+- Click "Analyze My Colors"
+- View your season, undertone, and color recommendations
+- Sign up to save results and access dashboard
 
 5. Stop Server
 Press Ctrl + C in terminal
 
 # Example Output
+```
 python3 app.py                                                                  
 ✓ Successfully imported colorpalette and undertone modules
 
@@ -70,3 +70,4 @@ WARNING: This is a development server. Do not use it in a production deployment.
  * Running on http://127.0.0.1:5001
  * Running on http://192.168.1.122:5001
 Press CTRL+C to quit
+```
