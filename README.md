@@ -24,10 +24,6 @@ pip (Python package installer)
 1. Start server
 
 2. python (or python3) app.py
-Expected Output:
-ColorMe Application Starting...
-Frontend: http://localhost:5001
- * Running on http://127.0.0.1:5001
 
 3. Open in Browser
 Navigate to: http://localhost:5001
