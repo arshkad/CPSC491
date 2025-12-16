@@ -21,7 +21,7 @@ Python 3.8 or higher
 pip (Python package installer)
 
 # Run on Visual Studio Code
-1. Start server
+1. Open Terminal on VS Code
 
 2. python (or python3) app.py
 
