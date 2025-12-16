@@ -14,7 +14,6 @@ An AI-powered web application that analyzes your face and skin tone to provide p
 - Frontend: HTML5, CSS3, JavaScript
 - Backend: Python 3.8+, Flask, Flask-CORS
 - AI/ML: MediaPipe, OpenCV, NumPy, scikit-learn
-- Authentication: Werkzeug, PyJWT
 
 📦 Prerequisites
 Python 3.8 or higher
